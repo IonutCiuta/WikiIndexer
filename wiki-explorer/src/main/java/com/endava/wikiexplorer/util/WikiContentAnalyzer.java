@@ -1,5 +1,7 @@
 package com.endava.wikiexplorer.util;
 
+import com.endava.wikiexplorer.dto.WikiArticleDTO;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,17 +12,17 @@ import java.util.Map;
 public class WikiContentAnalyzer {
     private static final String SPACE = " ";
 
-    public static Map<String, Integer> countArticleWords(String articleText) {
+    private static Map<String, Integer> countArticleWords(String articleText) {
         Map<String, Integer> wordCounter = new HashMap<>();
         String[] words = articleText.split(SPACE);
 
         for(String word : words) {
             String lowerWord = word.toLowerCase();
 
-            if(!word.contains(lowerWord)) {
+            if(!wordCounter.containsKey(lowerWord)) {
                 wordCounter.put(lowerWord, 1);
             } else {
-                int previousCount = wordCounter.get(word);
+                int previousCount = wordCounter.get(lowerWord);
                 wordCounter.put(lowerWord, ++previousCount);
             }
         }
@@ -28,11 +30,8 @@ public class WikiContentAnalyzer {
         return wordCounter;
     }
 
-    public static ArticleAnalysis computeTopWords(Map<String, Integer> wordCounter) {
-        ArticleAnalysis analysis = new ArticleAnalysis();
-        for(String word : wordCounter.keySet()) {
-            analysis.addWord(word, wordCounter.get(word));
-        }
-        return analysis;
+    public static ArticleAnalysis analyzeArticleContent(WikiArticleDTO wikiArticle) {
+        String cleanText = WikiContentParser.parse(wikiArticle.getWikiFormatContent());
+        return new ArticleAnalysis(countArticleWords(cleanText));
     }
 }

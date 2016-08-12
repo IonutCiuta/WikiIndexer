@@ -1,5 +1,6 @@
 package com.endava.wikiexplorer.controller;
 
+import com.endava.wikiexplorer.dto.WikiArticleDTO;
 import com.endava.wikiexplorer.service.WikiArticleService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ArticleDataController {
     @RequestMapping("/article/{title}")
     public void getStatistics(@PathVariable String title) {
         log.info("Requested data for article: " + title);
-        wikiArticleService.requestWikiArticle(title);
+        WikiArticleDTO wikiArticleDTO = wikiArticleService.requestWikiArticle(title);
+        wikiArticleService.analyzeArticle(wikiArticleDTO);
     }
 }

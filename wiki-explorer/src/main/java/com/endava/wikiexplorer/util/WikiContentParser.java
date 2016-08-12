@@ -54,6 +54,4 @@ public class WikiContentParser {
 
         return cleanText;
     }
-
-
 }

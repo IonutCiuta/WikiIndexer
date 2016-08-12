@@ -1,68 +1,29 @@
 package com.endava.wikiexplorer.util;
 
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Ionut Ciuta on 8/11/2016.
  */
 public class ArticleAnalysis {
-    private final Integer TOP_WORDS_COUNT = 10;
-    private final boolean ACCEPTED = true;
-    private final boolean DENIED = false;
+    private Map<String, Integer> wordCounter;
 
-    private HashMap<String, Integer> topWords;
-    private String leastFrequent, nextLessFrequent;
-
-    public ArticleAnalysis() {
-        topWords = new HashMap<>();
-    }
-
-    public boolean addWord(String word, Integer count) {
-        boolean result = false;
-
-        if(topWords.size() < TOP_WORDS_COUNT) {
-            result = true;
-            topWords.put(word, count);
-
-            if(count <= getMinFrequency()) {
-                leastFrequent = word;
+    public ArticleAnalysis(Map<String, Integer> unorderedWordCounter) {
+        this.wordCounter = new TreeMap<>(new Comparator<String>() {
+            @Override
+            public int compare(String word1, String word2) {
+                return unorderedWordCounter.get(word1).compareTo(unorderedWordCounter.get(word2));
             }
-        } else {
-            if(count >= getMinFrequency()) {
-                result = true;
-                topWords.remove(leastFrequent);
-                leastFrequent = getLeastFrequent();
-                topWords.put(word, count);
-            }
-        }
+        });
 
-        return result;
+        wordCounter.putAll(unorderedWordCounter);
     }
 
-    private Integer getMinFrequency() {
-        if(leastFrequent != null) {
-            return topWords.get(leastFrequent);
-        } else {
-            return 0;
+    public void displayAnalysis() {
+        for(String word : wordCounter.keySet()) {
+            System.out.println(word + " [" + wordCounter.get(word) + "] ");
         }
-    }
-
-    private String getLeastFrequent() {
-        int minCount = Integer.MAX_VALUE;
-        String minWord = leastFrequent;
-
-        for(String word : topWords.keySet()) {
-            int currentCount = topWords.get(word);
-            if(currentCount < minCount) {
-                minCount = currentCount;
-                minWord = word;
-            }
-        }
-
-        return minWord;
-    }
-
-    public HashMap<String, Integer> getTopWords() {
-        return topWords;
     }
 }

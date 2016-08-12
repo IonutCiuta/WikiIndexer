@@ -2,7 +2,8 @@ package com.endava.wikiexplorer.service;
 
 import com.endava.wikiexplorer.dto.WikiArticleAnalyticsDTO;
 import com.endava.wikiexplorer.dto.WikiArticleDTO;
-import com.endava.wikiexplorer.util.WikiContentParser;
+import com.endava.wikiexplorer.util.ArticleAnalysis;
+import com.endava.wikiexplorer.util.WikiContentAnalyzer;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,8 +23,8 @@ public class WikiArticleService {
     }
 
     public WikiArticleAnalyticsDTO analyzeArticle(WikiArticleDTO wikiArticle) {
-        String plainText = WikiContentParser.parse(wikiArticle.getWikiFormatContent());
-        String[] words = plainText.split(" ");
-
+        ArticleAnalysis articleAnalysis = WikiContentAnalyzer.analyzeArticleContent(wikiArticle);
+        articleAnalysis.displayAnalysis();
+        return null;
     }
 }
