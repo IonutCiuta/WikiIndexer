@@ -8,10 +8,10 @@ import java.util.TreeMap;
 /**
  * Ionut Ciuta on 8/11/2016.
  */
-public class ArticleAnalysis {
+public class WikiContentAnalysis {
     private  List<Map.Entry<String, Integer>> sortedWordCount;
 
-    public ArticleAnalysis(Map<String, Integer> unorderedWordCounter) {
+    public WikiContentAnalysis(Map<String, Integer> unorderedWordCounter) {
         sortData(unorderedWordCounter);
     }
 

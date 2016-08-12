@@ -10,19 +10,19 @@ import java.util.List;
  * Ionut Ciuta on 8/11/2016.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WikiPage implements Serializable {
+public class WikiArticle implements Serializable {
     @JsonProperty("pageid")
-    private String pageId;
+    private Integer pageId;
 
     private String title;
 
     private List<WikiRevision> revisions;
 
-    public String getPageId() {
+    public Integer getPageId() {
         return pageId;
     }
 
-    public void setPageId(String pageId) {
+    public void setPageId(Integer pageId) {
         this.pageId = pageId;
     }
 
@@ -44,7 +44,7 @@ public class WikiPage implements Serializable {
 
     @Override
     public String toString() {
-        return "WikiPage{" +
+        return "WikiArticle{" +
                 "pageId=" + pageId +
                 ", title='" + title + '\'' +
                 ", revisions=" + revisions +

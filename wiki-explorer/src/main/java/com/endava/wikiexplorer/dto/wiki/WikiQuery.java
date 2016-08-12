@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Ionut Ciuta on 8/11/2016.
@@ -11,20 +12,20 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WikiQuery implements Serializable {
     @JsonProperty("pages")
-    private WikiPagesContainer content;
+    private Map<String, WikiArticle> pages;
 
-    public WikiPagesContainer getContent() {
-        return content;
+    public Map<String, WikiArticle> getPages() {
+        return pages;
     }
 
-    public void setContent(WikiPagesContainer content) {
-        this.content = content;
+    public void setPages(Map<String, WikiArticle> pages) {
+        this.pages = pages;
     }
 
     @Override
     public String toString() {
         return "WikiQuery{" +
-                "content=" + content +
+                "pages=" + pages +
                 '}';
     }
 }

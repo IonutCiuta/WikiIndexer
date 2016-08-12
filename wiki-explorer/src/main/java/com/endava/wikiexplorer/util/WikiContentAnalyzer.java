@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.util;
 
-import com.endava.wikiexplorer.dto.WikiArticleDTO;
+import com.endava.wikiexplorer.dto.WikiDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,8 +30,8 @@ public class WikiContentAnalyzer {
         return wordCounter;
     }
 
-    public static ArticleAnalysis analyzeArticleContent(WikiArticleDTO wikiArticle) {
-        String cleanText = WikiContentParser.parse(wikiArticle.getWikiFormatContent());
-        return new ArticleAnalysis(countArticleWords(cleanText));
+    public static WikiContentAnalysis analyzeContentSerial(WikiDTO wikiDTO) {
+        String cleanText = WikiContentParser.parse(wikiDTO.getWikiFromatContent());
+        return new WikiContentAnalysis(countArticleWords(cleanText));
     }
 }
