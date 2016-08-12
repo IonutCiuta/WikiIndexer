@@ -1,6 +1,7 @@
 package com.endava.wikiexplorer.util;
 
-import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,22 +9,32 @@ import java.util.TreeMap;
  * Ionut Ciuta on 8/11/2016.
  */
 public class ArticleAnalysis {
-    private Map<String, Integer> wordCounter;
+    private  List<Map.Entry<String, Integer>> sortedWordCount;
 
     public ArticleAnalysis(Map<String, Integer> unorderedWordCounter) {
-        this.wordCounter = new TreeMap<>(new Comparator<String>() {
-            @Override
-            public int compare(String word1, String word2) {
-                return unorderedWordCounter.get(word1).compareTo(unorderedWordCounter.get(word2));
-            }
-        });
+        sortData(unorderedWordCounter);
+    }
 
-        wordCounter.putAll(unorderedWordCounter);
+    private void sortData(Map<String, Integer> unsortedWordCounter) {
+        sortedWordCount = new LinkedList<>(unsortedWordCounter.entrySet());
+        sortedWordCount.sort((word1, word2) -> word1.getValue().compareTo(word2.getValue()));
+    }
+
+    public Map<String, Integer> getWordsStatisticsAsMap() {
+        Map<String, Integer> result = new TreeMap<>();
+        for(Map.Entry<String, Integer> wordCount : sortedWordCount) {
+            result.put(wordCount.getKey(), wordCount.getValue());
+        }
+        return result;
+    }
+
+    public List<Map.Entry<String, Integer>> getWordsStatisticsAsList() {
+        return sortedWordCount;
     }
 
     public void displayAnalysis() {
-        for(String word : wordCounter.keySet()) {
-            System.out.println(word + " [" + wordCounter.get(word) + "] ");
+        for(Map.Entry<String, Integer> wordCount : sortedWordCount) {
+            System.out.println(wordCount.getKey() + " [" + wordCount.getValue() + "] ");
         }
     }
 }
