@@ -41,16 +41,6 @@ public class WikiDTO implements Serializable {
         return result;
     }
 
-    public String getWikiFormatContent() {
-        String result = "";
-
-        for(WikiArticle article : getArticles()) {
-            result += article.getRevisions().get(0).getContent();
-        }
-
-        return result;
-    }
-
     @Override
     public String toString() {
         return "WikiDTO{" +

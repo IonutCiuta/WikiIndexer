@@ -31,7 +31,7 @@ public class ArticleDataController {
         log.info("GET /article/" + titles);
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
         WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
-        wikiContentAnalysis.displayAnalysis();
+        //wikiContentAnalysis.displayAnalysis();
     }
 
     @RequestMapping(name = "/article", method = RequestMethod.POST)
