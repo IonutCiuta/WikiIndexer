@@ -32,7 +32,7 @@ public class WikiArticleService {
     public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {
         log.info("Analyzing articles: " + wikiDTO.getQueryTitles());
         long start = System.currentTimeMillis();
-        WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
+        WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeArticlesSerial(wikiDTO.getArticles());
         long end = System.currentTimeMillis();
         log.info("Total: " + (end - start));
         contentAnalysis.displayAnalysis();

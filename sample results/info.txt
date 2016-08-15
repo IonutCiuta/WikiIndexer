@@ -1,0 +1,26 @@
+Justin Bieber|Goku|Transformers|Kanye West
+Parallel: 297
+west [250] 
+was [259] 
+on [285] 
+s [290] 
+his [290] 
+to [440] 
+a [482] 
+of [590] 
+in [624] 
+and [667] 
+the [1405] 
+
+Serial: 553
+west [250] 
+was [259] 
+on [287] 
+s [290] 
+his [292] 
+to [440] 
+a [483] 
+of [591] 
+in [628] 
+and [669] 
+the [1419]
