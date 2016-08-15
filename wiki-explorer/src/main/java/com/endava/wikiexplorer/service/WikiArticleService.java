@@ -31,7 +31,8 @@ public class WikiArticleService {
 
     public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {
         log.info("Analyzing articles: " + wikiDTO.getQueryTitles());
-        WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeContentSerial(wikiDTO);
+        /*WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeContentSerial(wikiDTO);*/
+        WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeContentThreaded(wikiDTO.getArticles());
         contentAnalysis.displayAnalysis();
         return contentAnalysis;
     }

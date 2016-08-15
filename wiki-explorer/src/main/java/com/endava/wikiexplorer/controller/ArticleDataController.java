@@ -5,9 +5,8 @@ import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Ionut Ciuta on 8/11/2016.
@@ -19,11 +18,24 @@ public class ArticleDataController {
     @Autowired
     private WikiArticleService wikiArticleService;
 
-    @RequestMapping("/article/{titles}")
+    /*@RequestMapping(name = "/article/{titles}", method = RequestMethod.GET)
     public void getStatistics(@PathVariable String titles) {
-        log.info("Requested data for article: " + titles);
+        log.info("GET /article/" + titles);
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
         WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
         wikiContentAnalysis.displayAnalysis();
+    }*/
+
+    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    public void getStatistics(@RequestParam(value = "titles") String titles) {
+        log.info("GET /article/" + titles);
+        WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
+        WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
+        wikiContentAnalysis.displayAnalysis();
+    }
+
+    @RequestMapping(name = "/article", method = RequestMethod.POST)
+    public void getStatistics(@RequestBody MultipartFile file) {
+        log.info("POST /article");
     }
 }

@@ -18,6 +18,10 @@ public class WikiArticle implements Serializable {
 
     private List<WikiRevision> revisions;
 
+    public String getWikiEncodedContent() {
+        return revisions.get(0).getContent();
+    }
+
     public Integer getPageId() {
         return pageId;
     }
