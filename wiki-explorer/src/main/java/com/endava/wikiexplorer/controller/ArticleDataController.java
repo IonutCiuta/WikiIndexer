@@ -5,8 +5,10 @@ import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Ionut Ciuta on 8/11/2016.
@@ -32,10 +34,5 @@ public class ArticleDataController {
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
         WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
         //wikiContentAnalysis.displayAnalysis();
-    }
-
-    @RequestMapping(name = "/article", method = RequestMethod.POST)
-    public void getStatistics(@RequestBody MultipartFile file) {
-        log.info("POST /article");
     }
 }
