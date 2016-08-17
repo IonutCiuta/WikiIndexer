@@ -1,4 +1,4 @@
-var app = angular.module('app', ['nvd3', 'ngRoute']);
+var app = angular.module('app', ['chart.js', 'ngRoute']);
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -21,41 +21,18 @@ app.controller('homeController', function($rootScope, $scope, $http) {
         $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
             .then(function(response) {
                 console.log("Analysis done!");
-                $rootScope.result = response.data;
+                $rootScope.data = [];
+                $rootScope.label = [];
+
+                angular.forEach(response.data.topOccurrences, function(entry) {
+                    $rootScope.data.push(entry.frequency);
+                    $rootScope.label.push(entry.word);
+                });
             });
     }
 });
 
-app.controller('analysisController', function($rootScope, $scope) {
-    console.log($rootScope.result);
-
-    $scope.options = {
-        chart: {
-            type: 'discreteBarChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 50,
-                left: 55
-            },
-            x: function(d){return d.word;},
-            y: function(d){return d.frequency;},
-            showValues: true,
-            valueFormat: function(d){
-                return d;
-            },
-            duration: 500,
-            xAxis: {
-                axisLabel: 'Top Words'
-            },
-            yAxis: {
-                axisLabel: 'Frequency',
-                axisLabelDistance: -10
-            }
-        }
-    };
-    
-    $scope.data = JSON.stringify($scope.data);
-    console.log($scope.data);
+app.controller('analysisController', function($rootScope) {
+    console.log($rootScope.label);
+    console.log($rootScope.data);
 });
