@@ -2,32 +2,32 @@ package com.endava.wikiexplorer.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.List;
 
 /**
  * Created by aciurea on 8/17/2016.
  */
 @Entity
-public class Query {
-    @Override
-    public String toString() {
-        return "Query{" +
-                "id=" + id +
-                ", titles=" + titles +
-                '}';
-    }
+public class Word {
 
     @Id
     Long id;
 
-    String titles;
+    String value;
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                '}';
+    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setTitles(String titles) {
-        titles = titles;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Long getId() {
@@ -35,7 +35,7 @@ public class Query {
         return id;
     }
 
-    public String getTitles() {
-        return titles;
+    public String getValue() {
+        return value;
     }
 }

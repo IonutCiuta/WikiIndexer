@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.util;
 
-import com.endava.wikiexplorer.dto.Occurrence;
+import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 
 import java.util.*;
@@ -18,7 +18,7 @@ public class WikiContentAnalyzer {
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static List<Occurrence> analyzeArticlesSerial(List<WikiArticle> articles) {
+    public static List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
         Map<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesSerial(articles);
         Map<String, Integer> wordCountMap = new HashMap<>();
 
@@ -34,7 +34,7 @@ public class WikiContentAnalyzer {
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static List<Occurrence> analyzeArticlesParallel(List<WikiArticle> articles) {
+    public static List<OccurrenceDTO> analyzeArticlesParallel(List<WikiArticle> articles) {
         ConcurrentHashMap<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesParallel(articles);
         ConcurrentHashMap<String, Integer> wordCountMap = new ConcurrentHashMap<>();
         ExecutorService counterExecutor = Executors.newFixedThreadPool(4);
@@ -75,16 +75,16 @@ public class WikiContentAnalyzer {
      * @param unsortedWordCountMap input map
      * @return list of top 10 occurrences
      */
-    private static List<Occurrence> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
+    private static List<OccurrenceDTO> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
         List<Map.Entry<String, Integer>> sortedOccurrences = new LinkedList<>(unsortedWordCountMap.entrySet());
         sortedOccurrences.sort((word1, word2) -> word1.getValue().compareTo(word2.getValue()));
 
-        List<Occurrence> topOccurences = new ArrayList<>();
+        List<OccurrenceDTO> topOccurences = new ArrayList<>();
         int startIndex = sortedOccurrences.size() - 1;
 
         for(int i = 0; i < 10; i++) {
             Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
-            topOccurences.add(new Occurrence(current.getKey(), current.getValue()));
+            topOccurences.add(new OccurrenceDTO(current.getKey(), current.getValue()));
         }
 
         return topOccurences;

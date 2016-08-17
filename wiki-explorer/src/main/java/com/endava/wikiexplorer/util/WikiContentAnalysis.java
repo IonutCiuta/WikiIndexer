@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.util;
 
-import com.endava.wikiexplorer.dto.Occurrence;
+import com.endava.wikiexplorer.dto.OccurrenceDTO;
 
 import java.io.Serializable;
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.*;
 public class WikiContentAnalysis implements Serializable{
     private String articleTitle;
     private Long analysisTime;
-    private List<Occurrence> topOccurrences;
+    private List<OccurrenceDTO> topOccurrences;
 
     public WikiContentAnalysis() {
         topOccurrences = new ArrayList<>();
@@ -33,11 +33,11 @@ public class WikiContentAnalysis implements Serializable{
         this.analysisTime = analysisTime;
     }
 
-    public List<Occurrence> getTopOccurrences() {
+    public List<OccurrenceDTO> getTopOccurrences() {
         return topOccurrences;
     }
 
-    public void setTopOccurrences(List<Occurrence> topOccurrences) {
+    public void setTopOccurrences(List<OccurrenceDTO> topOccurrences) {
         this.topOccurrences = topOccurrences;
     }
 
