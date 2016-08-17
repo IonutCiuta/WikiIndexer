@@ -1,33 +1,34 @@
 package com.endava.wikiexplorer.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by aciurea on 8/17/2016.
  */
 @Entity
+@Table(name="Query")
 public class Query {
-    @Override
-    public String toString() {
-        return "Query{" +
-                "id=" + id +
-                ", titles=" + titles +
-                '}';
-    }
 
     @Id
-    Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    String titles;
+    private String titles;
+
+    private Long timeMilis;
+
+    @OneToMany
+    @JoinColumn(name = "query_id")
+    private Collection<Occurence> occurences;
 
     public void setId(Long id) {
         this.id = id;
     }
 
     public void setTitles(String titles) {
-        titles = titles;
+        this.titles = titles;
     }
 
     public Long getId() {
@@ -37,5 +38,13 @@ public class Query {
 
     public String getTitles() {
         return titles;
+    }
+
+    @Override
+    public String toString() {
+        return "Query{" +
+                "id=" + id +
+                ", titles=" + titles +
+                '}';
     }
 }

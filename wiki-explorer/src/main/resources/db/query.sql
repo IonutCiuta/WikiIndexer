@@ -4,7 +4,8 @@ use WikiExplorer;
 
 create table if not exists Query(
 	id LONG PRIMARY KEY AUTO_INCREMENT,
-	title VARCHAR(100)
+	title VARCHAR(100),
+	time LONG
 );
 
 create table if not exists Word(

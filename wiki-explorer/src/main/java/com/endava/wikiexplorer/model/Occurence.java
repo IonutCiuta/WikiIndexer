@@ -1,34 +1,51 @@
 package com.endava.wikiexplorer.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by aciurea on 8/17/2016.
  */
 
 @Entity
+@Table(name = "Occurences")
 public class Occurence {
 
     @Id
     Long id;
+
+    @ManyToOne
+    @JoinColumn(name="query_id")
+    private Query query;
+
+    @ManyToOne
+    @JoinColumn(name="word_id")
+    Word word;
 
     Long frequency;
 
     @Override
     public String toString() {
         return "Occurence{" +
-                "id=" + id +
+                "query=" + query +
+                ", word=" + word +
                 ", frequency=" + frequency +
                 '}';
     }
 
-    public Long getId() {
-        return id;
+    public Query getQuery() {
+        return query;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+
+    public Word getWord() {
+        return word;
+    }
+
+    public void setWord(Word word) {
+        this.word = word;
     }
 
     public Long getFrequency() {

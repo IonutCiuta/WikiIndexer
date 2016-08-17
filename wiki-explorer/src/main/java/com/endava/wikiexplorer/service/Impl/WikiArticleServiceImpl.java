@@ -2,10 +2,13 @@ package com.endava.wikiexplorer.service.Impl;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
+import com.endava.wikiexplorer.model.Query;
+import com.endava.wikiexplorer.repository.QueryRepository;
 import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +24,18 @@ public class WikiArticleServiceImpl implements WikiArticleService {
 
     @Value("${wiki.api.url}")
     private String wikiURL;
+
+    @Autowired
+    QueryRepository queryRepository;
+
+    /**
+     *
+     * @param titles
+     * @return
+     */
+//    public Query requestDbContent(String titles){
+//
+//    }
 
     public WikiContentAnalysis getWikiContent(String titles) {
         //todo check database
