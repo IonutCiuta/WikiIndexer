@@ -1,0 +1,21 @@
+{
+  "name": "wiki-indexer",
+  "homepage": "https://github.com/IonutCiuta/endava-project",
+  "authors": [
+    "iciuta <ionut.ciuta@endava.com>"
+  ],
+  "description": "endava graduate project",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "resolutions": {
+    "d3": "^3.4.4"
+  }
+}

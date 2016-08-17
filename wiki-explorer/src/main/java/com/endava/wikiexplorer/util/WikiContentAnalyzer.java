@@ -1,10 +1,9 @@
 package com.endava.wikiexplorer.util;
 
+import com.endava.wikiexplorer.dto.Occurrence;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,7 +18,7 @@ public class WikiContentAnalyzer {
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static WikiContentAnalysis analyzeArticlesSerial(List<WikiArticle> articles) {
+    public static List<Occurrence> analyzeArticlesSerial(List<WikiArticle> articles) {
         Map<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesSerial(articles);
         Map<String, Integer> wordCountMap = new HashMap<>();
 
@@ -27,7 +26,7 @@ public class WikiContentAnalyzer {
             countArticleWords(articleWordsMap.get(key), wordCountMap);
         }
 
-        return new WikiContentAnalysis(wordCountMap);
+        return getTopOccuringWords(wordCountMap);
     }
 
     /**
@@ -35,7 +34,7 @@ public class WikiContentAnalyzer {
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static WikiContentAnalysis analyzeArticlesParallel(List<WikiArticle> articles) {
+    public static List<Occurrence> analyzeArticlesParallel(List<WikiArticle> articles) {
         ConcurrentHashMap<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesParallel(articles);
         ConcurrentHashMap<String, Integer> wordCountMap = new ConcurrentHashMap<>();
         ExecutorService counterExecutor = Executors.newFixedThreadPool(4);
@@ -50,8 +49,7 @@ public class WikiContentAnalyzer {
 
         }
 
-        WikiContentAnalysis analysis = new WikiContentAnalysis(wordCountMap);
-        return analysis;
+        return getTopOccuringWords(wordCountMap);
     }
 
     /**
@@ -73,6 +71,26 @@ public class WikiContentAnalyzer {
     }
 
     /**
+     * Sorts a map of word - count pairs and selects top 10 occurring words
+     * @param unsortedWordCountMap input map
+     * @return list of top 10 occurrences
+     */
+    private static List<Occurrence> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
+        List<Map.Entry<String, Integer>> sortedOccurrences = new LinkedList<>(unsortedWordCountMap.entrySet());
+        sortedOccurrences.sort((word1, word2) -> word1.getValue().compareTo(word2.getValue()));
+
+        List<Occurrence> topOccurences = new ArrayList<>();
+        int startIndex = sortedOccurrences.size() - 1;
+
+        for(int i = 0; i < 10; i++) {
+            Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
+            topOccurences.add(new Occurrence(current.getKey(), current.getValue()));
+        }
+
+        return topOccurences;
+    }
+
+    /**
      * Thread that counts word appearances in an article; uses a ConcurrentHashMap as accumulator since it needs
      * synchronization
      */
@@ -89,9 +107,7 @@ public class WikiContentAnalyzer {
 
         @Override
         public void run() {
-            System.out.println("CounterThread " + tid + " started execution");
             countArticleWords(articleWords, accumulator);
-            System.out.println("CounterThread " + tid + " finished execution");
         }
     }
 }

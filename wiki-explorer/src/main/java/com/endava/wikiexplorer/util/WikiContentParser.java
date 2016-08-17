@@ -110,7 +110,6 @@ public class WikiContentParser {
         return partiallyEncodedText
                 .replaceAll("(?s)<ref.*?</ref>",   EMPTY)
                 .replaceAll("(?s)\\{\\{.*?\\}\\}", EMPTY)
-                .replaceAll("(?s)\\{\\{.*?\\}\\}", EMPTY)
                 .replaceAll("(?s)\\[\\[.*?\\]\\]", EMPTY)
                 .replaceAll("[^a-zA-Z0-9 ]+", SPACE)
                 .trim().replaceAll(" +", SPACE);
@@ -132,11 +131,9 @@ public class WikiContentParser {
 
         @Override
         public void run() {
-            System.out.println("ParsingThread " + tid + " started execution");
             String articleText = parse(article.getWikiEncodedContent());
             String[] articleWords = articleText.split(" ");
             accumulator.put(tid, articleWords);
-            System.out.println("ParsingThread " + tid + " finished execution");
         }
     }
 }

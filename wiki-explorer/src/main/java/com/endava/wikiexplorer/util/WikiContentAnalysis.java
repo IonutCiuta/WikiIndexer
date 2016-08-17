@@ -1,40 +1,47 @@
 package com.endava.wikiexplorer.util;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import com.endava.wikiexplorer.dto.Occurrence;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Ionut Ciuta on 8/11/2016.
  */
-public class WikiContentAnalysis {
-    private  List<Map.Entry<String, Integer>> sortedWordCount;
+public class WikiContentAnalysis implements Serializable{
+    private String articleTitle;
+    private Long analysisTime;
+    private List<Occurrence> topOccurrences;
 
-    public WikiContentAnalysis(Map<String, Integer> unorderedWordCounter) {
-        sortData(unorderedWordCounter);
+    public WikiContentAnalysis() {
+        topOccurrences = new ArrayList<>();
     }
 
-    private void sortData(Map<String, Integer> unsortedWordCounter) {
-        sortedWordCount = new LinkedList<>(unsortedWordCounter.entrySet());
-        sortedWordCount.sort((word1, word2) -> word1.getValue().compareTo(word2.getValue()));
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
-    public Map<String, Integer> getWordsStatisticsAsMap() {
-        Map<String, Integer> result = new TreeMap<>();
-        for(Map.Entry<String, Integer> wordCount : sortedWordCount) {
-            result.put(wordCount.getKey(), wordCount.getValue());
-        }
-        return result;
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
     }
 
-    public List<Map.Entry<String, Integer>> getWordsStatisticsAsList() {
-        return sortedWordCount;
+    public Long getAnalysisTime() {
+        return analysisTime;
+    }
+
+    public void setAnalysisTime(Long analysisTime) {
+        this.analysisTime = analysisTime;
+    }
+
+    public List<Occurrence> getTopOccurrences() {
+        return topOccurrences;
+    }
+
+    public void setTopOccurrences(List<Occurrence> topOccurrences) {
+        this.topOccurrences = topOccurrences;
     }
 
     public void displayAnalysis() {
-        for(Map.Entry<String, Integer> wordCount : sortedWordCount) {
-            System.out.println(wordCount.getKey() + " [" + wordCount.getValue() + "] ");
-        }
+        topOccurrences.forEach(System.out::println);
     }
 }

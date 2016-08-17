@@ -1,5 +1,6 @@
 package com.endava.wikiexplorer.service;
 
+import com.endava.wikiexplorer.dto.Occurrence;
 import com.endava.wikiexplorer.dto.WikiDTO;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
@@ -7,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 /**
  * Ionut Ciuta on 8/11/2016.
@@ -31,11 +34,15 @@ public class WikiArticleService {
 
     public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {
         log.info("Analyzing articles: " + wikiDTO.getQueryTitles());
+        WikiContentAnalysis analysis = new WikiContentAnalysis();
+
         long start = System.currentTimeMillis();
-        WikiContentAnalysis contentAnalysis = WikiContentAnalyzer.analyzeArticlesSerial(wikiDTO.getArticles());
+        List<Occurrence> occurrences = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
         long end = System.currentTimeMillis();
-        log.info("Total: " + (end - start));
-        contentAnalysis.displayAnalysis();
-        return contentAnalysis;
+
+        analysis.setArticleTitle(wikiDTO.getQueryTitles());
+        analysis.setTopOccurrences(occurrences);
+        analysis.setAnalysisTime(end - start);
+        return analysis;
     }
 }

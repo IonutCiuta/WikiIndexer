@@ -20,19 +20,15 @@ public class ArticleDataController {
     @Autowired
     private WikiArticleService wikiArticleService;
 
-    /*@RequestMapping(name = "/article/{titles}", method = RequestMethod.GET)
-    public void getStatistics(@PathVariable String titles) {
-        log.info("GET /article/" + titles);
-        WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
-        WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
-        wikiContentAnalysis.displayAnalysis();
-    }*/
-
+    /**
+     *
+     * @param titles should be Title1|Title2|Title3
+     * @return
+     */
     @RequestMapping(value = "/article", method = RequestMethod.GET)
-    public void getStatistics(@RequestParam(value = "titles") String titles) {
+    public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
-        WikiContentAnalysis wikiContentAnalysis = wikiArticleService.analyzeWikiContent(wikiDTO);
-        //wikiContentAnalysis.displayAnalysis();
+        return wikiArticleService.analyzeWikiContent(wikiDTO);
     }
 }

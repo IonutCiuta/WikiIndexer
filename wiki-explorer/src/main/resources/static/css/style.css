@@ -1,0 +1,9 @@
+.app-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.app-title {
+    color: dodgerblue;
+}
