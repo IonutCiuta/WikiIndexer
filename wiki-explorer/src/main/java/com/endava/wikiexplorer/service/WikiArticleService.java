@@ -17,6 +17,8 @@ import java.util.List;
 
 public interface WikiArticleService {
 
+    public void addDbContent(WikiContentAnalysis wikiContentAnalysis);
+
     public WikiContentAnalysis requestDbContent(String titles);
 
     public WikiDTO requestWikiContent(String titles);

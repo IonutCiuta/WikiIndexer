@@ -1,8 +1,6 @@
 package com.endava.wikiexplorer.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by aciurea on 8/17/2016.
@@ -12,9 +10,14 @@ import javax.persistence.Table;
 public class Word {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String value;
+
+    public Word(String value){
+        this.value=value;
+    }
 
     @Override
     public String toString() {

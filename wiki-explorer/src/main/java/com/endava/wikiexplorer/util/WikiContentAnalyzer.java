@@ -84,7 +84,7 @@ public class WikiContentAnalyzer {
 
         for(int i = 0; i < 10; i++) {
             Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
-            topOccurences.add(new OccurrenceDTO(current.getKey(), current.getValue()));
+            topOccurences.add(new OccurrenceDTO(current.getKey(),current.getValue()));
         }
 
         return topOccurences;

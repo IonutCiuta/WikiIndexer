@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by aciurea on 8/17/2016.
  */
 @Repository
-public interface QueryRepository extends CrudRepository<Query, Long> {
+public interface QueryRepository extends CrudRepository<Query, Integer> {
 
     Query findByTitles(String titles);
 }

@@ -11,7 +11,16 @@ import javax.persistence.*;
 public class Occurence {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @ManyToOne
     @JoinColumn(name="query_id")
@@ -21,7 +30,13 @@ public class Occurence {
     @JoinColumn(name="word_id")
     Word word;
 
-    Long frequency;
+    Integer frequency;
+
+    public Occurence(Query query, Word word,int frequency){
+        this.frequency=frequency;
+        this.word=word;
+        this.query=query;
+    }
 
     @Override
     public String toString() {
@@ -48,11 +63,11 @@ public class Occurence {
         this.word = word;
     }
 
-    public Long getFrequency() {
+    public Integer getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(Long frequency) {
+    public void setFrequency(Integer frequency) {
         this.frequency = frequency;
     }
 }

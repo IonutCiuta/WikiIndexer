@@ -9,7 +9,7 @@ public class OccurrenceDTO implements Serializable {
     private String word;
     private Integer frequency;
 
-    public OccurrenceDTO(String word, Integer frequency) {
+    public OccurrenceDTO(String word,Integer frequency) {
         this.word = word;
         this.frequency = frequency;
     }

@@ -20,9 +20,27 @@ public class Query {
     @Column(name="time")
     private Long timeMilis;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "query_id")
     private Collection<Occurence> occurences;
+
+
+    public Long getTimeMilis() {
+        return timeMilis;
+    }
+
+    public Collection<Occurence> getOccurences() {
+        return occurences;
+    }
+
+    public void setOccurences(Collection<Occurence> occurences) {
+        this.occurences = occurences;
+    }
+
+    public void setTimeMilis(Long timeMilis) {
+        this.timeMilis = timeMilis;
+    }
+
 
     public void setId(Integer id) {
         this.id = id;
