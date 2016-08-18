@@ -8,22 +8,23 @@ import java.util.List;
  * Created by aciurea on 8/17/2016.
  */
 @Entity
-@Table(name="Query")
+@Table(name="query")
 public class Query {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     private String titles;
 
+    @Column(name="time")
     private Long timeMilis;
 
     @OneToMany
     @JoinColumn(name = "query_id")
     private Collection<Occurence> occurences;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,7 +32,7 @@ public class Query {
         this.titles = titles;
     }
 
-    public Long getId() {
+    public Integer getId() {
 
         return id;
     }

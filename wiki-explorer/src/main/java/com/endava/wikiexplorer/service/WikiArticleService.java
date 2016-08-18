@@ -14,35 +14,13 @@ import java.util.List;
 /**
  * Ionut Ciuta on 8/11/2016.
  */
-@Service
-public class WikiArticleService {
-    private final Logger log = Logger.getLogger(WikiArticleService.class);
 
-    @Value("${wiki.api.url}")
-    private String wikiURL;
+public interface WikiArticleService {
 
-    public WikiContentAnalysis getWikiContent(String titles) {
-        //todo check database
-        return analyzeWikiContent(requestWikiContent(titles));
-    }
+    public WikiContentAnalysis requestDbContent(String titles);
 
-    public WikiDTO requestWikiContent(String titles) {
-        log.info("Requesting Wikipedia article: " + titles);
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(wikiURL + titles, WikiDTO.class);
-    }
+    public WikiDTO requestWikiContent(String titles);
 
-    public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {
-        log.info("Analyzing articles: " + wikiDTO.getQueryTitles());
-        WikiContentAnalysis analysis = new WikiContentAnalysis();
+    public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO);
 
-        long start = System.currentTimeMillis();
-        List<OccurrenceDTO> occurrences = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
-        long end = System.currentTimeMillis();
-
-        analysis.setArticleTitle(wikiDTO.getQueryTitles());
-        analysis.setTopOccurrences(occurrences);
-        analysis.setAnalysisTime(end - start);
-        return analysis;
-    }
 }

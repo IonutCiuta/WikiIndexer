@@ -7,11 +7,11 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "Occurences")
+@Table(name = "occurences")
 public class Occurence {
 
     @Id
-    Long id;
+    Integer id;
 
     @ManyToOne
     @JoinColumn(name="query_id")
