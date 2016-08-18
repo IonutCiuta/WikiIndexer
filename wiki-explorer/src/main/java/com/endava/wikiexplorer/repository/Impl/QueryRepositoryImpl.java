@@ -4,7 +4,6 @@ import com.endava.wikiexplorer.model.Query;
 import com.endava.wikiexplorer.repository.QueryRepository;
 
 import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by aciurea on 8/18/2016.

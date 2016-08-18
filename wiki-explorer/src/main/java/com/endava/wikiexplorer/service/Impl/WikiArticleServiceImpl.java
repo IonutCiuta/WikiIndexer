@@ -12,7 +12,6 @@ import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.DTOService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,14 +40,15 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Autowired
     private WordRepository wordRepository;
 
-    //incomplete
+    //todo incomplete
     public WikiContentAnalysis requestDbContent(String titles) {
-        //todo check database
         Query query=queryRepository.findByTitles(titles);
         WikiContentAnalysis wikiContentAnalysis=new WikiContentAnalysis();
 
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
         wikiContentAnalysis.setArticleTitle(titles);
+        List<Occurence> occurences=(List)query.getOccurences();
+        wikiContentAnalysis.setTopOccurrences(DTOService.toDto(occurences));
 
         return wikiContentAnalysis;
     }

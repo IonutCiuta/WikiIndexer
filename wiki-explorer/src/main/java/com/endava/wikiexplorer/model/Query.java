@@ -2,7 +2,6 @@ package com.endava.wikiexplorer.model;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by aciurea on 8/17/2016.

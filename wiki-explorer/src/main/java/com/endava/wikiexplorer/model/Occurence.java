@@ -32,6 +32,10 @@ public class Occurence {
 
     Integer frequency;
 
+    public Occurence(){
+
+    }
+
     public Occurence(Query query, Word word,int frequency){
         this.frequency=frequency;
         this.word=word;

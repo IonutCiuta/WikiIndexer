@@ -1,7 +1,6 @@
 package com.endava.wikiexplorer.controller;
 
 import com.endava.wikiexplorer.dto.WikiDTO;
-import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import org.apache.log4j.Logger;
@@ -30,8 +29,15 @@ public class ArticleDataController {
     public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
-        WikiContentAnalysis wikiContentAnalysis=wikiArticleService.analyzeWikiContent(wikiDTO);
-        wikiArticleService.addDbContent(wikiContentAnalysis);
+        WikiContentAnalysis wikiContentAnalysis=null;
+        try{
+            System.out.println("Looking in DB...");
+            wikiContentAnalysis=wikiArticleService.requestDbContent(titles);
+        }catch (NullPointerException e){
+            System.out.println(titles + " not in DB. Adding...");
+            wikiContentAnalysis=wikiArticleService.analyzeWikiContent(wikiDTO);
+            wikiArticleService.addDbContent(wikiContentAnalysis);
+        }
         return wikiContentAnalysis;
     }
 }

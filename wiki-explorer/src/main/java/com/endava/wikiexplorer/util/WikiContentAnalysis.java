@@ -4,7 +4,8 @@ package com.endava.wikiexplorer.util;
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ionut Ciuta on 8/11/2016.
