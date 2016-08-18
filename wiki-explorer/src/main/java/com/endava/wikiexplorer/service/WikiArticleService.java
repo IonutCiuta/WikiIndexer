@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.service;
 
-import com.endava.wikiexplorer.dto.Occurrence;
+import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
@@ -37,7 +37,7 @@ public class WikiArticleService {
         WikiContentAnalysis analysis = new WikiContentAnalysis();
 
         long start = System.currentTimeMillis();
-        List<Occurrence> occurrences = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
+        List<OccurrenceDTO> occurrences = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
         long end = System.currentTimeMillis();
 
         analysis.setArticleTitle(wikiDTO.getQueryTitles());

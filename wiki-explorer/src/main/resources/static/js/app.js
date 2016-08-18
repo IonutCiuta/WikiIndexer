@@ -22,17 +22,17 @@ app.controller('homeController', function($rootScope, $scope, $http) {
             .then(function(response) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
-                $rootScope.label = [];
+                $rootScope.labels = [];
 
                 angular.forEach(response.data.topOccurrences, function(entry) {
                     $rootScope.data.push(entry.frequency);
-                    $rootScope.label.push(entry.word);
+                    $rootScope.labels.push(entry.word);
                 });
             });
     }
 });
 
 app.controller('analysisController', function($rootScope) {
-    console.log($rootScope.label);
+    console.log($rootScope.labels);
     console.log($rootScope.data);
 });
