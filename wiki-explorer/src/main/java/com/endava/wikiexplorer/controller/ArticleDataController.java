@@ -31,10 +31,11 @@ public class ArticleDataController {
         WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
         WikiContentAnalysis wikiContentAnalysis=null;
         try{
-            System.out.println("Looking in DB...");
+            log.info("Looking in DB...");
             wikiContentAnalysis=wikiArticleService.requestDbContent(titles);
+            log.info("Found "+ titles + "in DB");
         }catch (NullPointerException e){
-            System.out.println(titles + " not in DB. Adding...");
+            log.info(titles + " not in DB. Adding...");
             wikiContentAnalysis=wikiArticleService.analyzeWikiContent(wikiDTO);
             wikiArticleService.addDbContent(wikiContentAnalysis);
         }

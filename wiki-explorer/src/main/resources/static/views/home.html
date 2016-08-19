@@ -6,6 +6,31 @@
                     <span class="input-group-btn">
                         <input type="submit" class="btn btn-primary" value="Analyze" ng-click="getArticleAnalysis()">
                     </span>
-        </div>
+
+            </div>
+    </div>
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <form>
+            <label>Ignore common words (articles,prepositions etc)</label>
+            <div class="form-group">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="ignoreCommon" ng-model="formData.ignoreCommon">
+                </label>
+            </div>
+            <!-- =============================================== -->
+            <!-- ALL OUR CHECKBOXES AND RADIO BOXES WILL GO HERE -->
+            <!-- =============================================== -->
+
+            <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+
+        </form>
+
+
+
+        <!-- SHOW OFF OUR FORMDATA OBJECT -->
+    <pre>
+        {{ formData }}
+    </pre>
+
     </div>
 </form>

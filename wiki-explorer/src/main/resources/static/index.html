@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WikiExplorer</title>
+    <title>Wiki Explorer</title>
     <meta charset="utf-8">
 
     <!-- Angular JS -->
@@ -27,12 +27,29 @@
 
 
 <body ng-app="app">
-    <div class="container">
-        <h3 class="app-title">Wiki Explorer</h3>
-        <a href="#home">Home</a>
-        <a href="#analysis">Analysis</a>
+
+    <div class="text-center">
+        <h3 class="page-header">Wiki Explorer</h3>
+        </div>
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+        <li>
+            <a href="#search">Search</a>
+        </li>
+                <li>
+                    <a href="#analysis">History</a>
+                </li>
+            </ul>
+
         <ng-view></ng-view>
-        <h4>Footer</h4>
+
     </div>
+    <footer class="footer">
+        <div class="container">
+            <p>Place sticky footer content here.</p>
+        </div>
+    </footer>
 </body>
 </html>

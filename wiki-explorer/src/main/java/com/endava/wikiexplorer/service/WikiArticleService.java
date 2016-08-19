@@ -9,12 +9,12 @@ import com.endava.wikiexplorer.util.WikiContentAnalysis;
 
 public interface WikiArticleService {
 
-    public void addDbContent(WikiContentAnalysis wikiContentAnalysis);
+    void addDbContent(WikiContentAnalysis wikiContentAnalysis);
 
-    public WikiContentAnalysis requestDbContent(String titles);
+    WikiContentAnalysis requestDbContent(String titles);
 
-    public WikiDTO requestWikiContent(String titles);
+    WikiDTO requestWikiContent(String titles);
 
-    public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO);
+    WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO);
 
 }

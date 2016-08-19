@@ -36,3 +36,11 @@ app.controller('analysisController', function($rootScope) {
     console.log($rootScope.labels);
     console.log($rootScope.data);
 });
+
+app.controller('formController', function($scope) {
+
+    // we will store our form data in this object
+    $scope.formData = {};
+    console.log($scope.formData);
+
+});
