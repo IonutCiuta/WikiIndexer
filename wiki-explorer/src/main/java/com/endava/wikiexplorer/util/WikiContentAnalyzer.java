@@ -2,6 +2,7 @@ package com.endava.wikiexplorer.util;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +13,9 @@ import java.util.concurrent.Executors;
  * Ionut Ciuta on 8/11/2016.
  */
 public class WikiContentAnalyzer {
+
+    @Value("${wiki.commonWords}")
+    static String commonWords;
 
     /**
      * Analyzes articles in a serial way
@@ -84,6 +88,11 @@ public class WikiContentAnalyzer {
 
         for(int i = 0; i < 10; i++) {
             Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
+
+//            if(!commonWords.contains(current.getKey())){
+//                //// TODO: 8/19/2016
+//            }
+            System.out.println("commonWords "+commonWords);
             topOccurences.add(new OccurrenceDTO(current.getKey(),current.getValue()));
         }
 
