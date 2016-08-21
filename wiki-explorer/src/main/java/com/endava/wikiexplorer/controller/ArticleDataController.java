@@ -41,4 +41,14 @@ public class ArticleDataController {
         }
         return wikiContentAnalysis;
     }
+
+    @RequestMapping(value = "/article/random", method = RequestMethod.GET)
+    public WikiContentAnalysis getRandomStatistics() {
+        log.info("GET /article/random");
+        WikiDTO wikiDTO = wikiArticleService.requestWikiContent();
+        WikiContentAnalysis wikiContentAnalysis=null;
+        log.info("Requesting random article");
+        wikiContentAnalysis=wikiArticleService.analyzeWikiContent(wikiDTO);
+        return wikiContentAnalysis;
+    }
 }

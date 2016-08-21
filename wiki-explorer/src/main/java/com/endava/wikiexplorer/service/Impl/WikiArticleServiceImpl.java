@@ -31,6 +31,9 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Value("${wiki.api.url}")
     private String wikiURL;
 
+    @Value("${wiki.api.url.random}")
+    private String randomURL;
+
     @Autowired
     private QueryRepository queryRepository;
 
@@ -74,6 +77,12 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         log.info("Requesting Wikipedia article: " + titles);
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(wikiURL + titles, WikiDTO.class);
+    }
+
+    public WikiDTO requestWikiContent() {
+        log.info("Requesting Wikipedia article: ");
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(randomURL, WikiDTO.class);
     }
 
     public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {

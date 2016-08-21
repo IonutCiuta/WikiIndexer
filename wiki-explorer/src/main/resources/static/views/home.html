@@ -2,39 +2,57 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Article title</label>
         <div class="input-group col-sm-5">
-            <input class="form-control" id="focusedInput" type="text" placeholder="e.g. Kanye West" ng-model="articleTitle">
+            <input class="form-control" id="focusedInput" type="text" placeholder="e.g. Kanye West"
+                   ng-model="articleTitle">
+
                     <span class="input-group-btn">
                         <input type="submit" class="btn btn-primary" value="Analyze" ng-click="getArticleAnalysis()">
                     </span>
-
-            </div>
-    </div>
-    <div ng-controller = "myCtrl">
-        <input type = "file" file-model = "myFile"/>
-        <button ng-click = "uploadFile()">upload me</button>
-    </div>
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-        <form>
-            <label>Ignore common words (articles,prepositions etc)</label>
-            <div class="form-group">
-                <label class="checkbox-inline">
+            <div class="form-group col-sm-2">
+                <label class="largerCheckbox" name="checkBox">
                     <input type="checkbox" name="ignoreCommon" ng-model="formData.ignoreCommon">
                 </label>
             </div>
-            <!-- =============================================== -->
-            <!-- ALL OUR CHECKBOXES AND RADIO BOXES WILL GO HERE -->
-            <!-- =============================================== -->
-
-            <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-
-        </form>
-
-
-
-        <!-- SHOW OFF OUR FORMDATA OBJECT -->
-    <pre>
-        {{ formData }}
-    </pre>
-
+        </div>
+        </div>
+    <div>
+        <textarea ></textarea>
     </div>
+    <div ng-controller="MainCtrl" class="container">
+        <h1>Select text file</h1>
+        <input type="file" on-read-file="showContent($fileContent)" />
+        <div ng-if="content">
+            <h2>File content is:</h2>
+            <pre>{{ content }}</pre>
+        </div>
+    </div>
+
+
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+            <form>
+
+                <span class="input-group-btn">
+                        <input type="submit" class="btn btn-primary" value="Random Article"
+                               ng-click="getRandomArticleAnalysis()">
+                    </span>
+
+                <!-- =============================================== -->
+                <!-- ALL OUR CHECKBOXES AND RADIO BOXES WILL GO HERE -->
+                <!-- =============================================== -->
+
+                <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+
+            </form>
+        </div>
+
+            <h4>{{articleTitle}}</h4>
+            <div id="final" ng-controller="analysisController">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="data" chart-labels="labels">
+                </canvas>
+
+                <!-- SHOW OFF OUR FORMDATA OBJECT -->
+
+
+            </div>
 </form>

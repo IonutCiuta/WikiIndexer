@@ -2,6 +2,10 @@ var app = angular.module('app', ['chart.js', 'ngRoute']);
 
 app.config(function($routeProvider) {
     $routeProvider
+        .when('/', {
+            templateUrl: '../index.html',
+            controller: 'indexController'
+        })
         .when('/home', {
             templateUrl: '../views/home.html',
             controller: 'homeController'
@@ -13,22 +17,46 @@ app.config(function($routeProvider) {
 });
 
 app.controller('homeController', function($rootScope, $scope, $http, $window) {
-    $scope.articleTitle = undefined;
+    $rootScope.articleTitle = undefined;
 
     $scope.getArticleAnalysis = function() {
-        console.log("Input title is: " + $scope.articleTitle);
+        console.log("Input title is: " + $rootScope.articleTitle);
 
-        $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
+        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
+            .then(function(response) {
+                console.log("Analysis done!");
+                $rootScope.data = [];
+                $rootScope.labels = [];
+                window.scrollBy(0, 1000);
+                console.log("cancer!");
+                var objDiv = document.getElementById("final");
+                objDiv.scrollTop = objDiv.scrollHeight;
+                angular.forEach(response.data.topOccurrences, function(entry) {
+                    $rootScope.data.push(entry.frequency);
+                    $rootScope.labels.push(entry.word);
+                });
+                // $window.location.href = "#analysis";
+            });
+    }
+
+    $scope.getRandomArticleAnalysis = function() {
+        console.log("Getting Random Article");
+
+        $http.get("http://localhost:8080/article/random")
             .then(function(response) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
                 $rootScope.labels = [];
 
+                console.log("cancer!");
+                $rootScope.articleTitle=response.data.articleTitle;
                 angular.forEach(response.data.topOccurrences, function(entry) {
                     $rootScope.data.push(entry.frequency);
                     $rootScope.labels.push(entry.word);
-                });
-                $window.location.href = "#analysis";
+                }
+                );
+                window.scrollBy(0, 1000);
+                // $window.location.href = "#analysis";
             });
     }
 });
@@ -42,54 +70,36 @@ app.controller('formController', function($scope) {
 
     // we will store our form data in this object
     $scope.formData = {};
-    console.log($scope.formData);
+    WikiContentAnalyzer.setIgnoreCommon($scope.formData.ignoreCommon.valueOf());
+    console.log($scope.formData.ignoreCommon.valueOf());
 
 });
 
 
+app.controller('MainCtrl', function ($scope) {
+    $scope.showContent = function($fileContent){
+        $scope.content = $fileContent;
+    };
+});
 
-app.directive('fileModel', ['$parse', function ($parse) {
+app.directive('onReadFile', function ($parse) {
     return {
         restrict: 'A',
+        scope: false,
         link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
+            var fn = $parse(attrs.onReadFile);
 
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
+            element.on('change', function(onChangeEvent) {
+                var reader = new FileReader();
+
+                reader.onload = function(onLoadEvent) {
+                    scope.$apply(function() {
+                        fn(scope, {$fileContent:onLoadEvent.target.result});
+                    });
+                };
+
+                reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
             });
         }
     };
-}]);
-
-app.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function(file, uploadUrl){
-        var fd = new FormData();
-        fd.append('file', file);
-
-        $http.post(uploadUrl, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
-
-            .success(function(){
-            })
-
-            .error(function(){
-            });
-    }
-}]);
-
-app.controller('myCtrl', ['$scope', 'fileUpload', function($scope, fileUpload){
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-
-        console.log('file is ' );
-        console.dir(file);
-
-        var uploadUrl = "/fileUpload";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
-}]);
+});

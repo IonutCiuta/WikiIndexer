@@ -14,8 +14,17 @@ import java.util.concurrent.Executors;
  */
 public class WikiContentAnalyzer {
 
-    @Value("${wiki.commonWords}")
-    static String commonWords;
+    public static boolean ignoreCommon;
+
+    public static final String COMMON_WORDS="the in on out a an at to of as";
+
+    public static boolean isIgnoreCommon() {
+        return ignoreCommon;
+    }
+
+    public static void setIgnoreCommon(boolean ignoreCommon) {
+        WikiContentAnalyzer.ignoreCommon = ignoreCommon;
+    }
 
     /**
      * Analyzes articles in a serial way
@@ -85,16 +94,20 @@ public class WikiContentAnalyzer {
 
         List<OccurrenceDTO> topOccurences = new ArrayList<>();
         int startIndex = sortedOccurrences.size() - 1;
-
+    if(ignoreCommon==true){
         for(int i = 0; i < 10; i++) {
             Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
-
-//            if(!commonWords.contains(current.getKey())){
-//                //// TODO: 8/19/2016
-//            }
-            System.out.println("commonWords "+commonWords);
+            if(!COMMON_WORDS.contains(current.getKey())) {
+                topOccurences.add(new OccurrenceDTO(current.getKey(), current.getValue()));
+            }
+        }
+    }else{
+        for(int i = 0; i < 10; i++) {
+            Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
             topOccurences.add(new OccurrenceDTO(current.getKey(),current.getValue()));
         }
+    }
+
 
         return topOccurences;
     }
