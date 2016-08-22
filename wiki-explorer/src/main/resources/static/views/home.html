@@ -1,58 +1,62 @@
-<form class="form-horizontal" role="form">
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Article title</label>
-        <div class="input-group col-sm-5">
-            <input class="form-control" id="focusedInput" type="text" placeholder="e.g. Kanye West"
-                   ng-model="articleTitle">
-
-                    <span class="input-group-btn">
-                        <input type="submit" class="btn btn-primary" value="Analyze" ng-click="getArticleAnalysis()">
-                    </span>
-            <div class="form-group col-sm-2">
-                <label class="largerCheckbox" name="checkBox">
-                    <input type="checkbox" name="ignoreCommon" ng-model="formData.ignoreCommon">
-                </label>
-            </div>
-        </div>
-        </div>
-    <div>
-        <textarea ></textarea>
-    </div>
-    <div ng-controller="MainCtrl" class="container">
-        <h1>Select text file</h1>
-        <input type="file" on-read-file="showContent($fileContent)" />
-        <div ng-if="content">
-            <h2>File content is:</h2>
-            <pre>{{ content }}</pre>
-        </div>
-    </div>
+<form class="form-horizontal app-center" role="form">
 
 
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-            <form>
-
+<div class="row">
+<div class="container col-sm-6" id="container1">
+    <label class="control-label"><h4>Search article title</h4></label>
+    <input class="form-control" id="focusedInput" type="text" placeholder="e.g. Kanye West" ng-model="inputTitle">
                 <span class="input-group-btn">
-                        <input type="submit" class="btn btn-primary" value="Random Article"
-                               ng-click="getRandomArticleAnalysis()">
-                    </span>
+                    <input type="submit" class="btn btn-primary" value="Analyze" ng-click="getArticleAnalysis()">
+                </span>
+</div>
+<div class="container col-sm-6" id="container2">
+        <span class="input-group-btn">
+            <input type="submit" style="margin-top: 30px" class="btn btn-primary btn-lg" value="Random Article"
+                   ng-click="getRandomArticleAnalysis()">
+        </span>
+</div>
+</div>
+<div class="row">
+<div class="container col-sm-6" id="container3">
+        <div ng-controller="homeController">
+            <div class="row"><label class="control-label"><h4>Upload file</h4></label></div>
 
-                <!-- =============================================== -->
-                <!-- ALL OUR CHECKBOXES AND RADIO BOXES WILL GO HERE -->
-                <!-- =============================================== -->
-
-                <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-
-            </form>
-        </div>
-
-            <h4>{{articleTitle}}</h4>
-            <div id="final" ng-controller="analysisController">
-                <canvas id="bar" class="chart chart-bar"
-                        chart-data="data" chart-labels="labels">
-                </canvas>
-
-                <!-- SHOW OFF OUR FORMDATA OBJECT -->
-
-
+            <div class="row"><label value="Upload File" class="custom-file-upload">
+                <input type="file" on-read-file="showContent($fileContent)"/>
+            </label>
             </div>
+            <div ng-if="content">
+                <h2>File content is:</h2>
+                <pre>{{ content }}</pre>
+            </div>
+        </div>
+    </div>
+<div class="container col-sm-6" id="container4">
+        <!-- Slide THREE -->
+        <div class="slideThree" style="margin-top: 40px">
+            <input type="checkbox" value="None" id="slideThree" name="check" />
+            <label for="slideThree"></label>
+        </div>
+        <h4>Ignore common words</h4>
+    </div>
+</div>
+    <br>
+    <br>
+    <div ng-controller="homeController" ng-if="articleTitle",ng-model="articleTitles">
+        <h3 style="text-align: center">{{articleTitle}}</h3>
+        <h3>{{analysisTime}}</h3>
+        <canvas id="bar" class="chart chart-bar"
+                chart-data="data" chart-labels="labels">
+        </canvas>
+    <br>
+        <br>
+        <!-- SHOW OFF OUR FORMDATA OBJECT -->
+        <span class="input-group-btn">
+                    <input type="submit" class="btn btn-primary" value="Next" ng-click="getArticleAnalysis()">
+                </span>
+        <span class="input-group-btn">
+                    <input type="submit" class="btn btn-primary" value="Previous" ng-click="getArticleAnalysis()">
+                </span>
+
+    </div>
 </form>

@@ -1,72 +1,70 @@
 var app = angular.module('app', ['chart.js', 'ngRoute']);
 
-app.config(function($routeProvider) {
-    $routeProvider
+app.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider
+            // .when('/', {
+            //     templateUrl: '../index.html'
+            // })
         .when('/', {
-            templateUrl: '../index.html',
-            controller: 'indexController'
-        })
-        .when('/home', {
             templateUrl: '../views/home.html',
             controller: 'homeController'
         })
-        .when('/analysis', {
-            templateUrl: '../views/analysis.html',
-            controller: 'analysisController'
-        })
-});
+        // .when('/analysis', {
+        //     templateUrl: '../views/analysis.html',
+        //     controller: 'analysisController'
+        // })
+}]);
 
-app.controller('homeController', function($rootScope, $scope, $http, $window) {
-    $rootScope.articleTitle = undefined;
+app.controller('homeController', function($rootScope, $scope, $http) {
+    $scope.getArticleAnalysis = function () {
+        if ($scope.inputTitle) {
+            $scope.articleTitle = $scope.inputTitle;
+        }
 
-    $scope.getArticleAnalysis = function() {
-        console.log("Input title is: " + $rootScope.articleTitle);
+        console.log("Input title is: " + $scope.articleTitle);
 
-        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
-            .then(function(response) {
+        $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
+            .then(function (response) {
                 console.log("Analysis done!");
-                $rootScope.data = [];
-                $rootScope.labels = [];
-                window.scrollBy(0, 1000);
-                console.log("cancer!");
-                var objDiv = document.getElementById("final");
-                objDiv.scrollTop = objDiv.scrollHeight;
-                angular.forEach(response.data.topOccurrences, function(entry) {
-                    $rootScope.data.push(entry.frequency);
-                    $rootScope.labels.push(entry.word);
+                $scope.data = [];
+                $scope.labels = [];
+                angular.forEach(response.data.topOccurrences, function (entry) {
+                    $scope.data.push(entry.frequency);
+                    $scope.labels.push(entry.word);
                 });
-                // $window.location.href = "#analysis";
+                $scope.articleTitle = response.data.articleTitle;
             });
-    }
+    };
 
-    $scope.getRandomArticleAnalysis = function() {
+    $scope.getRandomArticleAnalysis = function () {
         console.log("Getting Random Article");
 
         $http.get("http://localhost:8080/article/random")
-            .then(function(response) {
+            .then(function (response) {
                 console.log("Analysis done!");
-                $rootScope.data = [];
-                $rootScope.labels = [];
-
-                console.log("cancer!");
-                $rootScope.articleTitle=response.data.articleTitle;
-                angular.forEach(response.data.topOccurrences, function(entry) {
-                    $rootScope.data.push(entry.frequency);
-                    $rootScope.labels.push(entry.word);
-                }
+                $scope.data = [];
+                $scope.labels = [];
+                angular.forEach(response.data.topOccurrences, function (entry) {
+                        $scope.data.push(entry.frequency);
+                        $scope.labels.push(entry.word);
+                    }
                 );
-                window.scrollBy(0, 1000);
-                // $window.location.href = "#analysis";
+                $scope.articleTitle = response.data.articleTitle;
             });
-    }
+    };
+    $scope.showContent = function ($fileContent) {
+        $scope.content = $fileContent;
+        var strings = $scope.content.split("\n");
+        $rootScope.articleTitles = [];
+        $.each(strings, function () {
+            $rootScope.articleTitles.push(this);
+        });
+        console.log($rootScope.articleTitles);
+    };
 });
 
-app.controller('analysisController', function($rootScope) {
-    console.log($rootScope.labels);
-    console.log($rootScope.data);
-});
-
-app.controller('formController', function($scope) {
+app.controller('checkBoxController', function($scope) {
 
     // we will store our form data in this object
     $scope.formData = {};
@@ -76,11 +74,6 @@ app.controller('formController', function($scope) {
 });
 
 
-app.controller('MainCtrl', function ($scope) {
-    $scope.showContent = function($fileContent){
-        $scope.content = $fileContent;
-    };
-});
 
 app.directive('onReadFile', function ($parse) {
     return {
@@ -97,7 +90,6 @@ app.directive('onReadFile', function ($parse) {
                         fn(scope, {$fileContent:onLoadEvent.target.result});
                     });
                 };
-
                 reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
             });
         }
