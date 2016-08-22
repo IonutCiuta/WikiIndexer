@@ -41,14 +41,14 @@
     </div>
 </div>
 </div>
-    <br>
-    <br>
+    <div class="container" style="margin-top:20px">
+        <div class="row">
     <div ng-controller="homeController" ng-if="articleTitle">
         <h3 style="text-align: center">{{articleTitle}} [ {{analysisTime}} ms]</h3>
-        <canvas id="bar" class="chart chart-bar"
+        <canvas id="bar" class="chart chart-bar" style="margin:auto"
                 chart-data="data" chart-labels="labels">
         </canvas>
-    <br>
-        <br>
+    </div>
+    </div>
     </div>
 </form>
