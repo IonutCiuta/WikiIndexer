@@ -1,7 +1,5 @@
 .app-center {
     display: block;
-    margin-left: 13%;
-    margin-right: 10%;
 }
 
 .btn{
@@ -9,12 +7,12 @@
     position:relative;
 
 }
-.container{
+.stuff{
     text-align:center;
     background-color: transparent;
-    width:400px;
+    /*width:400px;*/
     height:150px;
-    margin:50px;
+    /*margin:50px;*/
     border-radius: 25px;
     border: 2px solid dodgerblue;
     padding: 10px;

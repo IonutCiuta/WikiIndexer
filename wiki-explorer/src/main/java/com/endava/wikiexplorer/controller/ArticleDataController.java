@@ -32,7 +32,7 @@ public class ArticleDataController {
         try{
             log.info("Looking in DB...");
             wikiContentAnalysis=wikiArticleService.requestDbContent(titles.replace("|",", "));
-            log.info("Found "+ titles + "  in DB");
+            log.info("Found "+ titles + " in DB");
         }catch (NullPointerException e){
             WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
             log.info(titles + " not in DB. Adding...");

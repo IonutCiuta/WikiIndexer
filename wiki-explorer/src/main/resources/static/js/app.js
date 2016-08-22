@@ -12,22 +12,24 @@ app.config(['$routeProvider',
 app.controller('homeController', function ($rootScope, $scope, $http) {
     $scope.getArticleAnalysis = function () {
         if ($scope.inputTitle) {
-            $scope.articleTitle = $scope.inputTitle;
+            $rootScope.articleTitle = $scope.inputTitle;
         }
 
-        console.log("Input title is: " + $scope.articleTitle);
+        console.log("Input title is: " + $rootScope.articleTitle);
 
-        $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
+        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
             .then(function (response) {
                 console.log("Analysis done!");
-                $scope.data = [];
-                $scope.labels = [];
-                $scope.analysisTime=response.data.analysisTime;
+                $rootScope.data = [];
+                $rootScope.labels = [];
+                $rootScope.analysisTime=response.data.analysisTime;
+                console.log(response.data.topOccurrences);
                 angular.forEach(response.data.topOccurrences, function (entry) {
-                    $scope.data.push(entry.frequency);
-                    $scope.labels.push(entry.word);
+                    $rootScope.data.push(entry.frequency);
+                    $rootScope.labels.push(entry.word);
+                    console.log($rootScope.data);
                 });
-                $scope.articleTitle = response.data.articleTitle;
+                $rootScope.articleTitle = response.data.articleTitle;
                 window.scrollTo(0,10000);
             });
     };
@@ -38,36 +40,35 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
         $http.get("http://localhost:8080/article/random")
             .then(function (response) {
                 console.log("Analysis done!");
-                $scope.data = [];
-                $scope.labels = [];
-                $scope.analysisTime=response.data.analysisTime;
+                $rootScope.data = [];
+                $rootScope.labels = [];
+                $rootScope.analysisTime=response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
-                        $scope.data.push(entry.frequency);
-                        $scope.labels.push(entry.word);
+                        $rootScope.data.push(entry.frequency);
+                        $rootScope.labels.push(entry.word);
                     }
                 );
-                $scope.articleTitle = response.data.articleTitle;
+                $rootScope.articleTitle = response.data.articleTitle;
                 window.scrollTo(0,10000);
             });
     };
     $scope.showContent = function ($fileContent) {
-        $rootScope.counter = 0;
-        $scope.articleTitle = $fileContent;
+        $rootScope.articleTitle = $fileContent;
         // $scope.articleTitle.replace(' ','|');
         // $scope.articleTitle.replace('\n','|');
 
         console.log("Input title is: " + $scope.articleTitle);
-        $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
+        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
             .then(function (response) {
                 console.log("Analysis done!");
-                $scope.data = [];
-                $scope.labels = [];
-                $scope.analysisTime=response.data.analysisTime;
+                $rootScope.data = [];
+                $rootScope.labels = [];
+                $rootScope.analysisTime=response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
-                    $scope.data.push(entry.frequency);
-                    $scope.labels.push(entry.word);
+                    $rootScope.data.push(entry.frequency);
+                    $rootScope.labels.push(entry.word);
                 });
-                $scope.articleTitle = response.data.articleTitle;
+                $rootScope.articleTitle = response.data.articleTitle;
                 window.scrollTo(0,10000);
             });
     };

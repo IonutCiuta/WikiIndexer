@@ -1,15 +1,15 @@
 <form class="form-horizontal app-center" role="form">
 
-
+<div class="container">
 <div class="row">
-<div class="container col-sm-6" id="container1">
+<div class="col-sm-6 stuff" id="container1">
     <label class="control-label"><h4>Search article title</h4></label>
     <input class="form-control" id="focusedInput" type="text" placeholder="e.g. Kanye West" ng-model="inputTitle">
                 <span class="input-group-btn">
                     <input type="submit" class="btn btn-primary" value="Analyze" ng-click="getArticleAnalysis()">
                 </span>
 </div>
-<div class="container col-sm-6" id="container2">
+<div class="col-sm-6 stuff" id="container2">
         <span class="input-group-btn">
             <input type="submit" style="margin-top: 30px" class="btn btn-primary btn-lg" value="Random Article"
                    ng-click="getRandomArticleAnalysis()">
@@ -17,7 +17,7 @@
 </div>
 </div>
 <div class="row">
-<div class="container col-sm-6" id="container3">
+<div class="col-sm-6 stuff" id="container3">
         <div ng-controller="homeController">
             <div class="row"><label class="control-label"><h4>Upload file</h4></label></div>
 
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-<div class="container col-sm-6" id="container4">
+<div class="col-sm-6 stuff" id="container4">
         <!-- Slide THREE -->
         <div class="slideThree" style="margin-top: 40px">
             <input type="checkbox" value="None" id="slideThree" name="check" />
@@ -39,6 +39,7 @@
         </div>
         <h4>Ignore common words</h4>
     </div>
+</div>
 </div>
     <br>
     <br>
