@@ -43,7 +43,7 @@
     <br>
     <br>
     <div ng-controller="homeController" ng-if="articleTitle">
-        <h3 style="text-align: center">{{articleTitle}}</h3>
+        <h3 style="text-align: center">{{articleTitle}} [ {{analysisTime}} ms]</h3>
         <canvas id="bar" class="chart chart-bar"
                 chart-data="data" chart-labels="labels">
         </canvas>

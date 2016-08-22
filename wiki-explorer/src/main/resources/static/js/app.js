@@ -22,6 +22,7 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
                 console.log("Analysis done!");
                 $scope.data = [];
                 $scope.labels = [];
+                $scope.analysisTime=response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
                     $scope.data.push(entry.frequency);
                     $scope.labels.push(entry.word);
@@ -39,6 +40,7 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
                 console.log("Analysis done!");
                 $scope.data = [];
                 $scope.labels = [];
+                $scope.analysisTime=response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
                         $scope.data.push(entry.frequency);
                         $scope.labels.push(entry.word);
@@ -55,12 +57,12 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
         // $scope.articleTitle.replace('\n','|');
 
         console.log("Input title is: " + $scope.articleTitle);
-
         $http.get("http://localhost:8080/article?titles=" + $scope.articleTitle)
             .then(function (response) {
                 console.log("Analysis done!");
                 $scope.data = [];
                 $scope.labels = [];
+                $scope.analysisTime=response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
                     $scope.data.push(entry.frequency);
                     $scope.labels.push(entry.word);
