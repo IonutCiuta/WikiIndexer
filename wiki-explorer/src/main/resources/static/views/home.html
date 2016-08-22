@@ -42,21 +42,12 @@
 </div>
     <br>
     <br>
-    <div ng-controller="homeController" ng-if="articleTitle",ng-model="articleTitles">
+    <div ng-controller="homeController" ng-if="articleTitle">
         <h3 style="text-align: center">{{articleTitle}}</h3>
-        <h3>{{analysisTime}}</h3>
         <canvas id="bar" class="chart chart-bar"
                 chart-data="data" chart-labels="labels">
         </canvas>
     <br>
         <br>
-        <!-- SHOW OFF OUR FORMDATA OBJECT -->
-        <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="Next" ng-click="getArticleAnalysis()">
-                </span>
-        <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="Previous" ng-click="getArticleAnalysis()">
-                </span>
-
     </div>
 </form>

@@ -1,3 +1,1 @@
-cat|dog
-war
-sun|moon
+cat|dog|war|sun|moon

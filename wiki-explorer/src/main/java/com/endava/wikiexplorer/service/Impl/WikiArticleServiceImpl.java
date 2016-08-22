@@ -45,29 +45,27 @@ public class WikiArticleServiceImpl implements WikiArticleService {
 
     //todo incomplete
     public WikiContentAnalysis requestDbContent(String titles) {
-        Query query=queryRepository.findByTitles(titles);
-        WikiContentAnalysis wikiContentAnalysis=new WikiContentAnalysis();
-
+        Query query = queryRepository.findByTitles(titles);
+        WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
         wikiContentAnalysis.setArticleTitle(titles);
-        List<Occurence> occurences=(List)query.getOccurences();
+        List<Occurence> occurences = (List) query.getOccurences();
         wikiContentAnalysis.setTopOccurrences(DTOService.toDto(occurences));
-
         return wikiContentAnalysis;
     }
 
     @Transactional
-    public void addDbContent(WikiContentAnalysis wikiContentAnalysis){
-        Query query=new Query();
+    public void addDbContent(WikiContentAnalysis wikiContentAnalysis) {
+        Query query = new Query();
         query.setTitles(wikiContentAnalysis.getArticleTitle());
         query.setTimeMilis(wikiContentAnalysis.getAnalysisTime());
         queryRepository.save(query);
 
-        List<OccurrenceDTO> occurrenceDTOs=wikiContentAnalysis.getTopOccurrences();
-        for(OccurrenceDTO occurrenceDTO:occurrenceDTOs){
-            Word word=new Word(occurrenceDTO.getWord());
+        List<OccurrenceDTO> occurrenceDTOs = wikiContentAnalysis.getTopOccurrences();
+        for (OccurrenceDTO occurrenceDTO : occurrenceDTOs) {
+            Word word = new Word(occurrenceDTO.getWord());
             wordRepository.save(word);
-            Occurence occurence=new Occurence(query,word,occurrenceDTO.getFrequency());
+            Occurence occurence = new Occurence(query, word, occurrenceDTO.getFrequency());
             System.out.println(occurence.toString());
             occurenceRepository.save(occurence);
         }
