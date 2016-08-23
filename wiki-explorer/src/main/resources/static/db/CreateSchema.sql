@@ -17,7 +17,7 @@ create table if not exists Occurences(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	query_id INT NOT NULL,
 	FOREIGN KEY (query_id) REFERENCES Query(id),
-	word_id LONG NOT NULL,
+	word_id INT NOT NULL,
 	FOREIGN KEY (word_id) REFERENCES Word(id),
 	frequency LONG NOT NULL
 );
