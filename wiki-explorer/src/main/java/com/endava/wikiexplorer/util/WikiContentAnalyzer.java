@@ -3,6 +3,7 @@ package com.endava.wikiexplorer.util;
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,14 +13,21 @@ import java.util.concurrent.Executors;
 /**
  * Ionut Ciuta on 8/11/2016.
  */
+@Component
 public class WikiContentAnalyzer {
+
+    @Value("${words.top.count}")
+    private Integer topWordsCount;
+
+    @Value("#{'${words.common}'.split(',')}")
+    private List<String> commonWordsList;
 
     /**
      * Analyzes articles in a serial way
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
+    public List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
         Map<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesSerial(articles);
         Map<String, Integer> wordCountMap = new HashMap<>();
 
@@ -35,7 +43,7 @@ public class WikiContentAnalyzer {
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
-    public static List<OccurrenceDTO> analyzeArticlesParallel(List<WikiArticle> articles) {
+    public List<OccurrenceDTO> analyzeArticlesParallel(List<WikiArticle> articles) {
         ConcurrentHashMap<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesParallel(articles);
         ConcurrentHashMap<String, Integer> wordCountMap = new ConcurrentHashMap<>();
         ExecutorService counterExecutor = Executors.newFixedThreadPool(4);
@@ -58,7 +66,7 @@ public class WikiContentAnalyzer {
      * @param articleWords arrays of articleWords from article
      * @param accumulator word - no. of appearances association
      */
-    private static void countArticleWords(String[] articleWords, Map<String, Integer> accumulator) {
+    private void countArticleWords(String[] articleWords, Map<String, Integer> accumulator) {
         for(String word : articleWords) {
             String lowerWord = word.toLowerCase();
 
@@ -76,17 +84,27 @@ public class WikiContentAnalyzer {
      * @param unsortedWordCountMap input map
      * @return list of top 10 occurrences
      */
-    private static List<OccurrenceDTO> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
+    private List<OccurrenceDTO> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
+        List<OccurrenceDTO> topOccurences = new ArrayList<>();
+        Set<String> commonWordsSet = new HashSet<>(commonWordsList);
         List<Map.Entry<String, Integer>> sortedOccurrences = new LinkedList<>(unsortedWordCountMap.entrySet());
+
         sortedOccurrences.sort((word1, word2) -> word1.getValue().compareTo(word2.getValue()));
 
-        List<OccurrenceDTO> topOccurences = new ArrayList<>();
-        int startIndex = sortedOccurrences.size() - 1;
-        for(int i = 0; i < 10; i++) {
-            Map.Entry<String, Integer> current = sortedOccurrences.get(startIndex - i);
-            topOccurences.add(new OccurrenceDTO(current.getKey(),current.getValue()));
-    }
+        int wordIndex = sortedOccurrences.size() - 1;
+        int selectedWords = 0;
 
+        while(selectedWords < topWordsCount && wordIndex > 0) {
+            Map.Entry<String, Integer> currentOccurence = sortedOccurrences.get(wordIndex);
+            String currentWord = currentOccurence.getKey();
+
+            if(!commonWordsSet.contains(currentWord)) {
+                topOccurences.add(new OccurrenceDTO(currentWord, currentOccurence.getValue()));
+                selectedWords++;
+            }
+
+            wordIndex--;
+        }
 
         return topOccurences;
     }
@@ -95,7 +113,7 @@ public class WikiContentAnalyzer {
      * Thread that counts word appearances in an article; uses a ConcurrentHashMap as accumulator since it needs
      * synchronization
      */
-    private static class CounterThread implements Runnable {
+    private class CounterThread implements Runnable {
         private int tid;
         private String[] articleWords;
         private ConcurrentHashMap<String, Integer> accumulator;

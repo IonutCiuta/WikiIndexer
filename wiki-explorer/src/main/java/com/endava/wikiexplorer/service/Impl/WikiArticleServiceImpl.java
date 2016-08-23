@@ -33,6 +33,9 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     private String randomURL;
 
     @Autowired
+    private WikiContentAnalyzer wikiContentAnalyzer;
+
+    @Autowired
     private QueryRepository queryRepository;
 
     @Autowired
@@ -107,7 +110,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         WikiContentAnalysis analysis = new WikiContentAnalysis();
 
         long start = System.currentTimeMillis();
-        List<OccurrenceDTO> occurrences = WikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
+        List<OccurrenceDTO> occurrences = wikiContentAnalyzer.analyzeArticlesParallel(wikiDTO.getArticles());
         long end = System.currentTimeMillis();
 
         analysis.setArticleTitle(wikiDTO.getQueryTitles());
