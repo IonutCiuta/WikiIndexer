@@ -27,9 +27,9 @@ public class WikiContentAnalyzer {
     private WikiContentParser wikiContentParser;
 
     /**
-     * Analyzes articles in a serial way
-     * @param articles list of articles receives from the Wikipedia API
-     * @return a complete analysis of the article
+     * Analyzes a list of articles in a serial manner; intermediary results are stored in a hash map
+     * @param articles list of articles
+     * @return list of top occuring words
      */
     public List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
         Map<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesSerial(articles);
@@ -43,9 +43,9 @@ public class WikiContentAnalyzer {
     }
 
     /**
-     * Analyzes articles in a parallel way
-     * @param articles list of articles receives from the Wikipedia API
-     * @return a complete analysis of the article
+     * Analyzes a list articles using multiple threads (counts words); stores word - appearances in concurrent hash map
+     * @param articles list of articles
+     * @return list of top occuring words
      */
     public List<OccurrenceDTO> analyzeArticlesParallel(List<WikiArticle> articles) {
         ConcurrentHashMap<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesParallel(articles);
@@ -66,9 +66,9 @@ public class WikiContentAnalyzer {
     }
 
     /**
-     * Counts articleWords from an arrays of strings; stores result in a map (can be HashMap or ConcurrentHashMap)
-     * @param articleWords arrays of articleWords from article
-     * @param accumulator word - no. of appearances association
+     * counts words from an articles; stores in common accumulator (synchronized)
+     * @param articleWords array of words
+     * @param accumulator map of word - appearances
      */
     private void countArticleWords(String[] articleWords, Map<String, Integer> accumulator) {
         for(String word : articleWords) {
@@ -84,9 +84,9 @@ public class WikiContentAnalyzer {
     }
 
     /**
-     * Sorts a map of word - count pairs and selects top 10 occurring words
-     * @param unsortedWordCountMap input map
-     * @return list of top 10 occurrences
+     * sorts accumulator of words; returns top uncommon words
+     * @param unsortedWordCountMap
+     * @return
      */
     private List<OccurrenceDTO> getTopOccuringWords(Map<String, Integer> unsortedWordCountMap) {
         List<OccurrenceDTO> topOccurences = new ArrayList<>();
