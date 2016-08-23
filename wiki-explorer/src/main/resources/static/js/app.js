@@ -14,15 +14,15 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
         if ($scope.inputTitle) {
             $rootScope.articleTitle = $scope.inputTitle;
         }
-
+        $scope.inputTitle = undefined;
         console.log("Input title is: " + $rootScope.articleTitle);
 
-        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
+        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle + "&ignoreCommon=" + $rootScope.ignoreCommon)
             .then(function (response) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
                 $rootScope.labels = [];
-                $rootScope.analysisTime=response.data.analysisTime;
+                $rootScope.analysisTime = response.data.analysisTime;
                 console.log(response.data.topOccurrences);
                 angular.forEach(response.data.topOccurrences, function (entry) {
                     $rootScope.data.push(entry.frequency);
@@ -30,7 +30,7 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
                     console.log($rootScope.data);
                 });
                 $rootScope.articleTitle = response.data.articleTitle;
-                window.scrollTo(0,10000);
+                window.scrollTo(0, 10000);
             });
     };
 
@@ -42,14 +42,14 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
                 $rootScope.labels = [];
-                $rootScope.analysisTime=response.data.analysisTime;
+                $rootScope.analysisTime = response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
                         $rootScope.data.push(entry.frequency);
                         $rootScope.labels.push(entry.word);
                     }
                 );
                 $rootScope.articleTitle = response.data.articleTitle;
-                window.scrollTo(0,10000);
+                window.scrollTo(0, 10000);
             });
     };
     $scope.showContent = function ($fileContent) {
@@ -63,23 +63,21 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
                 $rootScope.labels = [];
-                $rootScope.analysisTime=response.data.analysisTime;
+                $rootScope.analysisTime = response.data.analysisTime;
                 angular.forEach(response.data.topOccurrences, function (entry) {
                     $rootScope.data.push(entry.frequency);
                     $rootScope.labels.push(entry.word);
                 });
                 $rootScope.articleTitle = response.data.articleTitle;
-                window.scrollTo(0,10000);
+                window.scrollTo(0, 10000);
             });
     };
 });
 
-app.controller('checkBoxController', function ($scope) {
+app.controller('checkBoxController', function ($rootScope) {
 
     // we will store our form data in this object
-    $scope.formData = {};
-    WikiContentAnalyzer.setIgnoreCommon($scope.formData.ignoreCommon.valueOf());
-    console.log($scope.formData.ignoreCommon.valueOf());
+    $rootScope.ignoreCommon = false;
 
 });
 

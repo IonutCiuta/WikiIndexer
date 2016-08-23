@@ -33,7 +33,7 @@ public class ArticleDataController {
      * @return
      */
     @RequestMapping(value = "/article", method = RequestMethod.GET)
-    public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles) {
+    public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles, @RequestParam(value = "ignoreCommon") Boolean ignoreCommon) {
         log.info("GET /article/" + titles);
         return wikiArticleService.manageRequest(wikiURL+titles);
     }

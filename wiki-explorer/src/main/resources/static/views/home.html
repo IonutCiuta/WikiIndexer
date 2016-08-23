@@ -34,8 +34,9 @@
     </div>
 <div class="col-sm-6 stuff" id="container4">
         <!-- Slide THREE -->
-        <div class="slideThree" style="margin-top: 40px">
-            <input type="checkbox" value="None" id="slideThree" name="check" />
+        <div class="slideThree" ng-controller="checkBoxController" style="margin-top: 40px">
+            <input type="checkbox" value="false" [ng-true-value="true"]
+                   [ng-false-value="false"] ng-model="ignoreCommon" id="slideThree" name="check" />
             <label for="slideThree"></label>
         </div>
         <h4>Ignore common words</h4>
