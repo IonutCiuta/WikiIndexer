@@ -1,6 +1,5 @@
-package com.endava.wikiexplorer.controller;
+package com.endava.wikiexplorer.controller.rest;
 
-import com.endava.wikiexplorer.dto.WikiDTO;
 import com.endava.wikiexplorer.service.WikiArticleService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import org.apache.log4j.Logger;

@@ -17,7 +17,5 @@ public interface WikiArticleService {
 
     WikiDTO requestWikiContent(String titles);
 
-
     WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO);
-
 }
