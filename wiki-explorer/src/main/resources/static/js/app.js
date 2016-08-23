@@ -58,7 +58,7 @@ app.controller('homeController', function ($rootScope, $scope, $http) {
         // $scope.articleTitle.replace('\n','|');
 
         console.log("Input title is: " + $scope.articleTitle);
-        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle)
+        $http.get("http://localhost:8080/article?titles=" + $rootScope.articleTitle + "&ignoreCommon=" + $rootScope.ignoreCommon)
             .then(function (response) {
                 console.log("Analysis done!");
                 $rootScope.data = [];
