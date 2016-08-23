@@ -2,6 +2,7 @@ package com.endava.wikiexplorer.util;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +23,16 @@ public class WikiContentAnalyzer {
     @Value("#{'${words.common}'.split(',')}")
     private List<String> commonWordsList;
 
+    @Autowired
+    private WikiContentParser wikiContentParser;
+
     /**
      * Analyzes articles in a serial way
      * @param articles list of articles receives from the Wikipedia API
      * @return a complete analysis of the article
      */
     public List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
-        Map<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesSerial(articles);
+        Map<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesSerial(articles);
         Map<String, Integer> wordCountMap = new HashMap<>();
 
         for(int key : articleWordsMap.keySet()) {
@@ -44,7 +48,7 @@ public class WikiContentAnalyzer {
      * @return a complete analysis of the article
      */
     public List<OccurrenceDTO> analyzeArticlesParallel(List<WikiArticle> articles) {
-        ConcurrentHashMap<Integer, String[]> articleWordsMap = WikiContentParser.parseArticlesParallel(articles);
+        ConcurrentHashMap<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesParallel(articles);
         ConcurrentHashMap<String, Integer> wordCountMap = new ConcurrentHashMap<>();
         ExecutorService counterExecutor = Executors.newFixedThreadPool(4);
 

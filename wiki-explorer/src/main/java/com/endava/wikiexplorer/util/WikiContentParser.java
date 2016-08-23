@@ -4,6 +4,7 @@ import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 import net.java.textilej.parser.MarkupParser;
 import net.java.textilej.parser.builder.HtmlDocumentBuilder;
 import net.java.textilej.parser.markup.mediawiki.MediaWikiDialect;
+import org.springframework.stereotype.Component;
 
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
@@ -20,6 +21,7 @@ import java.util.concurrent.Executors;
 /**
  * Ionut Ciuta on 8/11/2016.
  */
+@Component
 public class WikiContentParser {
 
     /**
@@ -27,7 +29,7 @@ public class WikiContentParser {
      * @param articleList input articles
      * @return map of article index - word array pairs
      */
-    public static Map<Integer, String[]> parseArticlesSerial(List<WikiArticle> articleList) {
+    public Map<Integer, String[]> parseArticlesSerial(List<WikiArticle> articleList) {
         Map<Integer, String[]> articleWordsMap = new HashMap<>();
         for(int i = 0; i < articleList.size(); i++) {
             String plainTextArticle = parse(articleList.get(i).getWikiEncodedContent());
@@ -41,7 +43,7 @@ public class WikiContentParser {
      * @param articleList input articles
      * @return map of article index - word array pairs
      */
-    public static ConcurrentHashMap<Integer, String[]> parseArticlesParallel(List<WikiArticle> articleList) {
+    public ConcurrentHashMap<Integer, String[]> parseArticlesParallel(List<WikiArticle> articleList) {
         ConcurrentHashMap<Integer, String[]> articleWordsMap = new ConcurrentHashMap<>();
         ExecutorService parsingExecutor = Executors.newFixedThreadPool(4);
 
@@ -62,7 +64,7 @@ public class WikiContentParser {
      * @param encodedText wiki content
      * @return plain text
      */
-    private static String parse(String encodedText) {
+    private String parse(String encodedText) {
         return getPlainText(parseWikiEncodedText(encodedText));
     }
 
@@ -71,7 +73,7 @@ public class WikiContentParser {
      * @param wikiEncodedText wiki encoded text
      * @return text partially decoded
      */
-    private static String parseWikiEncodedText(String wikiEncodedText) {
+    private String parseWikiEncodedText(String wikiEncodedText) {
         StringWriter writer = new StringWriter();
         HtmlDocumentBuilder builder = new HtmlDocumentBuilder(writer);
         MarkupParser parser = new MarkupParser(new MediaWikiDialect());
@@ -103,14 +105,13 @@ public class WikiContentParser {
      * @param partiallyEncodedText text partially encoded
      * @return plain text
      */
-    private static String getPlainText(String partiallyEncodedText) {
+    private String getPlainText(String partiallyEncodedText) {
         final String EMPTY = "";
         final String SPACE = " ";
 
         return partiallyEncodedText
                 .replaceAll("(?s)<ref.*?</ref>",   EMPTY)
                 .replaceAll("(?s)\\{\\{.*?\\}\\}", EMPTY)
-                .replaceAll("(?s)\\[\\[.*?\\]\\]", EMPTY)
                 .replaceAll("[^a-zA-Z0-9 ]+", SPACE)
                 .trim().replaceAll(" +", SPACE);
     }
@@ -118,7 +119,7 @@ public class WikiContentParser {
     /**
      * Threads that parse an encoded wiki article as plain text; stores result in a shared ConcurrentHashMap
      */
-    private static class ParsingThread implements Runnable {
+    private class ParsingThread implements Runnable {
         private int tid;
         private WikiArticle article;
         private ConcurrentHashMap<Integer, String[]> accumulator;
