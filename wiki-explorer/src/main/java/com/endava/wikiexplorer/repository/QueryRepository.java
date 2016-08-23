@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QueryRepository extends CrudRepository<Query, Integer> {
 
-    Query findByTitle(String titles);
+    Query findByTitles(String titles);
 }

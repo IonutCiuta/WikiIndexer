@@ -10,7 +10,7 @@ import java.util.Iterator;
  */
 public abstract class QueryRepositoryImpl implements QueryRepository {
     @Override
-    public Query findByTitle(String titles) {
+    public Query findByTitles(String titles) {
         Iterator iterator= (Iterator) findAll();
         while(iterator.hasNext()){
             Query query= (Query) iterator.next();

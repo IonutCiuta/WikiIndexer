@@ -4,7 +4,7 @@ use WikiExplorer;
 
 create table if not exists Query(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-	title VARCHAR(100),
+	titles VARCHAR(100),
 	time LONG
 );
 
