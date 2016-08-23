@@ -64,8 +64,12 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         List<OccurrenceDTO> occurrenceDTOs = wikiContentAnalysis.getTopOccurrences();
         for (OccurrenceDTO occurrenceDTO : occurrenceDTOs) {
             Word word = new Word(occurrenceDTO.getWord());
-            wordRepository.save(word);
-            Occurence occurence = new Occurence(query, word, occurrenceDTO.getFrequency());
+            //wordRepository.save(word);
+            //
+            if(wordRepository.findByValue(occurrenceDTO.getWord())==null) {
+                wordRepository.save(word);
+            }
+            Occurence occurence = new Occurence(query, wordRepository.findByValue(occurrenceDTO.getWord()), occurrenceDTO.getFrequency());
             System.out.println(occurence.toString());
             occurenceRepository.save(occurence);
         }

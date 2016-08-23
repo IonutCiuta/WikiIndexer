@@ -116,7 +116,7 @@ public class WikiContentParser {
     }
 
     /**
-     * Threads that parses an encoded wiki article as plain text; stores result in a shared ConcurrentHashMap
+     * Threads that parse an encoded wiki article as plain text; stores result in a shared ConcurrentHashMap
      */
     private static class ParsingThread implements Runnable {
         private int tid;
