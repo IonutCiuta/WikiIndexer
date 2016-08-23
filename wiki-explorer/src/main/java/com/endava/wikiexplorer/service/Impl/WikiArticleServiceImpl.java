@@ -29,9 +29,6 @@ import java.util.List;
 public class WikiArticleServiceImpl implements WikiArticleService {
     private final Logger log = Logger.getLogger(WikiArticleService.class);
 
-    @Value("${wiki.api.url}")
-    private String wikiURL;
-
     @Value("${wiki.api.url.random}")
     private String randomURL;
 
@@ -44,17 +41,22 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Autowired
     private WordRepository wordRepository;
 
-    public WikiContentAnalysis manageRequest(String titles){
+    public WikiContentAnalysis manageRequest(String url) {
+        String titles = url.substring(url.lastIndexOf('=') + 1);
+        WikiContentAnalysis wikiContentAnalysis = null;
+        try {
+            if (url.equals(randomURL)) {
+                throw new NullPointerException();
+            }
 
-        WikiContentAnalysis wikiContentAnalysis=null;
-        try{
             log.info("Looking in DB...");
-            wikiContentAnalysis=requestDbContent(titleDbFormat(titles));
-            log.info("Found "+ titles + " in DB");
-        }catch (NullPointerException e){
-            WikiDTO wikiDTO = requestWikiContent(titles);
+            wikiContentAnalysis = requestDbContent(titleDbFormat(titles));
+            log.info("Found " + titles + " in DB");
+
+        } catch (NullPointerException e) {
+            WikiDTO wikiDTO = requestWikiContent(url);
             log.info(titles + " not in DB. Adding...");
-            wikiContentAnalysis=analyzeWikiContent(wikiDTO);
+            wikiContentAnalysis = analyzeWikiContent(wikiDTO);
             addDbContent(wikiContentAnalysis);
         }
         return wikiContentAnalysis;
@@ -62,7 +64,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
 
     //todo incomplete
     public WikiContentAnalysis requestDbContent(String titles) {
-        titles=titleDbFormat(titles);
+        titles = titleDbFormat(titles);
         Query query = queryRepository.findByTitles(titles);
         WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
@@ -85,7 +87,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
             Word word = new Word(occurrenceDTO.getWord());
 
             //add word to db if not exists
-            if(wordRepository.findByValue(occurrenceDTO.getWord())==null) {
+            if (wordRepository.findByValue(occurrenceDTO.getWord()) == null) {
                 wordRepository.save(word);
             }
             Occurence occurence = new Occurence(query, wordRepository.findByValue(occurrenceDTO.getWord()), occurrenceDTO.getFrequency());
@@ -94,16 +96,10 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         }
     }
 
-    public WikiDTO requestWikiContent(String titles) {
-        log.info("Requesting Wikipedia article: " + titles);
+    public WikiDTO requestWikiContent(String url) {
+        log.info("Requesting Wikipedia article: " + url);
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(wikiURL + titles, WikiDTO.class);
-    }
-
-    public WikiDTO requestWikiContent() {
-        log.info("Requesting Wikipedia article: ");
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(randomURL, WikiDTO.class);
+        return restTemplate.getForObject(url, WikiDTO.class);
     }
 
     public WikiContentAnalysis analyzeWikiContent(WikiDTO wikiDTO) {
@@ -120,14 +116,14 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         return analysis;
     }
 
-    public String titleDbFormat(String title){
+    public String titleDbFormat(String title) {
         String[] titles = title.split("\\|");
         Arrays.sort(titles);
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append(titles[0]);
-        for(int i=1;i<titles.length;i++){
-            sb.append(", "+titles[i]);
+        for (int i = 1; i < titles.length; i++) {
+            sb.append(", " + titles[i]);
         }
-            return sb.toString();
+        return sb.toString();
     }
 }
