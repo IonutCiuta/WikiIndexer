@@ -28,18 +28,7 @@ public class ArticleDataController {
     @RequestMapping(value = "/article", method = RequestMethod.GET)
     public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
-        WikiContentAnalysis wikiContentAnalysis=null;
-        try{
-            log.info("Looking in DB...");
-            wikiContentAnalysis=wikiArticleService.requestDbContent(titles.replace("|",", "));
-            log.info("Found "+ titles + " in DB");
-        }catch (NullPointerException e){
-            WikiDTO wikiDTO = wikiArticleService.requestWikiContent(titles);
-            log.info(titles + " not in DB. Adding...");
-            wikiContentAnalysis=wikiArticleService.analyzeWikiContent(wikiDTO);
-            wikiArticleService.addDbContent(wikiContentAnalysis);
-        }
-        return wikiContentAnalysis;
+        return wikiArticleService.requestManager(titles);
     }
 
     @RequestMapping(value = "/article/random", method = RequestMethod.GET)

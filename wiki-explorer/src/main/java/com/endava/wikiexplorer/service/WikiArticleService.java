@@ -9,6 +9,8 @@ import com.endava.wikiexplorer.util.WikiContentAnalysis;
 
 public interface WikiArticleService {
 
+    WikiContentAnalysis requestManager(String titles);
+
     void addDbContent(WikiContentAnalysis wikiContentAnalysis);
 
     WikiContentAnalysis requestDbContent(String titles);

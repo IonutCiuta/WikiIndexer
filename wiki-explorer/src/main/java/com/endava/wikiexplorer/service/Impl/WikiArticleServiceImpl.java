@@ -13,12 +13,14 @@ import com.endava.wikiexplorer.util.DTOService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
 import org.apache.log4j.Logger;
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,8 +45,25 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Autowired
     private WordRepository wordRepository;
 
+    public WikiContentAnalysis requestManager(String titles){
+
+        WikiContentAnalysis wikiContentAnalysis=null;
+        try{
+            log.info("Looking in DB...");
+            wikiContentAnalysis=requestDbContent(titleDbFormat(titles));
+            log.info("Found "+ titles + " in DB");
+        }catch (NullPointerException e){
+            WikiDTO wikiDTO = requestWikiContent(titles);
+            log.info(titles + " not in DB. Adding...");
+            wikiContentAnalysis=analyzeWikiContent(wikiDTO);
+            addDbContent(wikiContentAnalysis);
+        }
+        return wikiContentAnalysis;
+    }
+
     //todo incomplete
     public WikiContentAnalysis requestDbContent(String titles) {
+        titles=titleDbFormat(titles);
         Query query = queryRepository.findByTitles(titles);
         WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
@@ -57,7 +76,8 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Transactional
     public void addDbContent(WikiContentAnalysis wikiContentAnalysis) {
         Query query = new Query();
-        query.setTitles(wikiContentAnalysis.getArticleTitle());
+        query.setTitles(titleDbFormat(wikiContentAnalysis.getArticleTitle()));
+        System.out.println(wikiContentAnalysis.getArticleTitle());
         query.setTimeMilis(wikiContentAnalysis.getAnalysisTime());
         queryRepository.save(query);
 
@@ -99,5 +119,16 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         analysis.setTopOccurrences(occurrences);
         analysis.setAnalysisTime(end - start);
         return analysis;
+    }
+
+    public String titleDbFormat(String title){
+        String[] titles = title.split("|");
+        Arrays.sort(titles);
+        StringBuilder sb=new StringBuilder();
+        sb.append(titles[0]);
+        for(int i=1;i<titles.length;i++){
+            sb.append(", "+titles[i]);
+        }
+            return sb.toString();
     }
 }

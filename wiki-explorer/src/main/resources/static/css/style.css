@@ -2,16 +2,22 @@
     display: block;
 }
 
-.btn{
-    margin:auto;
-    position:relative;
 
-}
 .chart-bar{
     border-radius: 25px;
     border: 2px solid dodgerblue;
     padding: 10px;
 }
+
+.btn{
+    margin:auto;
+    position:relative;
+    /*text-align: center;*/
+    /*border-radius: 25px;*/
+    /*border: 2px solid dodgerblue;*/
+    /*padding: 10px;*/
+}
+
 .stuff{
     text-align:center;
     background-color: transparent;
