@@ -65,7 +65,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     //todo incomplete
     public WikiContentAnalysis requestDbContent(String titles) {
         titles = titleDbFormat(titles);
-        Query query = queryRepository.findByTitles(titles);
+        Query query = queryRepository.findByTitlesIgnoreCase(titles);
         WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
         wikiContentAnalysis.setArticleTitle(titles);
