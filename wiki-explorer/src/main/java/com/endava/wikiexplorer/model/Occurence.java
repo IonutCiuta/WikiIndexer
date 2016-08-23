@@ -14,14 +14,6 @@ public class Occurence {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @ManyToOne
     @JoinColumn(name="query_id")
     private Query query;
@@ -30,6 +22,7 @@ public class Occurence {
     @JoinColumn(name="word_id")
     Word word;
 
+    @Column
     Integer frequency;
 
     public Occurence(){
@@ -42,13 +35,12 @@ public class Occurence {
         this.query=query;
     }
 
-    @Override
-    public String toString() {
-        return "Occurence{" +
-                "query=" + query +
-                ", word=" + word +
-                ", frequency=" + frequency +
-                '}';
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Query getQuery() {
@@ -73,5 +65,14 @@ public class Occurence {
 
     public void setFrequency(Integer frequency) {
         this.frequency = frequency;
+    }
+
+    @Override
+    public String toString() {
+        return "Occurence{" +
+                "query=" + query +
+                ", word=" + word +
+                ", frequency=" + frequency +
+                '}';
     }
 }
