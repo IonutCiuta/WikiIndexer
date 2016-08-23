@@ -28,7 +28,7 @@ public class ArticleDataController {
     @RequestMapping(value = "/article", method = RequestMethod.GET)
     public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
-        return wikiArticleService.requestManager(titles);
+        return wikiArticleService.manageRequest(titles);
     }
 
     @RequestMapping(value = "/article/random", method = RequestMethod.GET)

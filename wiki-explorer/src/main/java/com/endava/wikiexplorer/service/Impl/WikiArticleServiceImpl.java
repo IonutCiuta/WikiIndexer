@@ -13,7 +13,6 @@ import com.endava.wikiexplorer.util.DTOService;
 import com.endava.wikiexplorer.util.WikiContentAnalysis;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
 import org.apache.log4j.Logger;
-import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     @Autowired
     private WordRepository wordRepository;
 
-    public WikiContentAnalysis requestManager(String titles){
+    public WikiContentAnalysis manageRequest(String titles){
 
         WikiContentAnalysis wikiContentAnalysis=null;
         try{
