@@ -121,7 +121,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
     }
 
     public String titleDbFormat(String title){
-        String[] titles = title.split("|");
+        String[] titles = title.split("\\|");
         Arrays.sort(titles);
         StringBuilder sb=new StringBuilder();
         sb.append(titles[0]);
