@@ -14,6 +14,7 @@ public class Query {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column
     private String titles;
 
     @Column(name="time")
@@ -23,9 +24,28 @@ public class Query {
     @JoinColumn(name = "query_id")
     private Collection<Occurence> occurences;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitles() {
+        return titles;
+    }
+
+    public void setTitles(String titles) {
+        this.titles = titles;
+    }
 
     public Long getTimeMilis() {
         return timeMilis;
+    }
+
+    public void setTimeMilis(Long timeMilis) {
+        this.timeMilis = timeMilis;
     }
 
     public Collection<Occurence> getOccurences() {
@@ -34,28 +54,6 @@ public class Query {
 
     public void setOccurences(Collection<Occurence> occurences) {
         this.occurences = occurences;
-    }
-
-    public void setTimeMilis(Long timeMilis) {
-        this.timeMilis = timeMilis;
-    }
-
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setTitles(String titles) {
-        this.titles = titles;
-    }
-
-    public Integer getId() {
-
-        return id;
-    }
-
-    public String getTitles() {
-        return titles;
     }
 
     @Override
