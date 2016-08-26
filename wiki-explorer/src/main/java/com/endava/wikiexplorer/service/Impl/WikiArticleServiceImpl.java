@@ -2,7 +2,7 @@ package com.endava.wikiexplorer.service.Impl;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
-import com.endava.wikiexplorer.model.Occurence;
+import com.endava.wikiexplorer.model.Occurrence;
 import com.endava.wikiexplorer.model.Query;
 import com.endava.wikiexplorer.model.Word;
 import com.endava.wikiexplorer.repository.OccurenceRepository;
@@ -72,8 +72,8 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
         wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
         wikiContentAnalysis.setArticleTitle(titles);
-        List<Occurence> occurences = (List) query.getOccurences();
-        wikiContentAnalysis.setTopOccurrences(DTOService.toDto(occurences));
+        List<Occurrence> occurrences = (List) query.getOccurrences();
+        wikiContentAnalysis.setTopOccurrences(DTOService.toDto(occurrences));
         return wikiContentAnalysis;
     }
 
@@ -93,9 +93,9 @@ public class WikiArticleServiceImpl implements WikiArticleService {
             if (wordRepository.findByValue(occurrenceDTO.getWord()) == null) {
                 wordRepository.save(word);
             }
-            Occurence occurence = new Occurence(query, wordRepository.findByValue(occurrenceDTO.getWord()), occurrenceDTO.getFrequency());
-            System.out.println(occurence.toString());
-            occurenceRepository.save(occurence);
+            Occurrence occurrence = new Occurrence(query, wordRepository.findByValue(occurrenceDTO.getWord()), occurrenceDTO.getFrequency());
+            System.out.println(occurrence.toString());
+            occurenceRepository.save(occurrence);
         }
     }
 

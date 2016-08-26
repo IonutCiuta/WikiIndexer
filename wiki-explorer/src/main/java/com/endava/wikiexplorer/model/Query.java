@@ -22,7 +22,7 @@ public class Query {
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "query_id")
-    private Collection<Occurence> occurences;
+    private Collection<Occurrence> occurrences;
 
     public Integer getId() {
         return id;
@@ -48,12 +48,12 @@ public class Query {
         this.timeMilis = timeMilis;
     }
 
-    public Collection<Occurence> getOccurences() {
-        return occurences;
+    public Collection<Occurrence> getOccurrences() {
+        return occurrences;
     }
 
-    public void setOccurences(Collection<Occurence> occurences) {
-        this.occurences = occurences;
+    public void setOccurrences(Collection<Occurrence> occurrences) {
+        this.occurrences = occurrences;
     }
 
     @Override

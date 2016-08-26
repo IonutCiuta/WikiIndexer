@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "occurences")
-public class Occurence {
+public class Occurrence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,11 +25,11 @@ public class Occurence {
     @Column
     Integer frequency;
 
-    public Occurence(){
+    public Occurrence(){
 
     }
 
-    public Occurence(Query query, Word word,int frequency){
+    public Occurrence(Query query, Word word, int frequency){
         this.frequency=frequency;
         this.word=word;
         this.query=query;
@@ -69,7 +69,7 @@ public class Occurence {
 
     @Override
     public String toString() {
-        return "Occurence{" +
+        return "Occurrence{" +
                 "query=" + query +
                 ", word=" + word +
                 ", frequency=" + frequency +
