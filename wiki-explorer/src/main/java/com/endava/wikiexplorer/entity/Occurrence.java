@@ -8,11 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "occurences")
-public class Occurrence {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+public class Occurrence extends AbstractEntity{
+    @Column
+    Integer frequency;
 
     @ManyToOne
     @JoinColumn(name="query_id")
@@ -22,9 +20,6 @@ public class Occurrence {
     @JoinColumn(name="word_id")
     Word word;
 
-    @Column
-    Integer frequency;
-
     public Occurrence(){
 
     }
@@ -33,14 +28,6 @@ public class Occurrence {
         this.frequency=frequency;
         this.word=word;
         this.query=query;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Query getQuery() {

@@ -8,12 +8,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name="query")
-public class Query {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+public class Query extends AbstractEntity{
     @Column
     private String titles;
 
@@ -23,14 +18,6 @@ public class Query {
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "query_id")
     private Collection<Occurrence> occurrences;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getTitles() {
         return titles;

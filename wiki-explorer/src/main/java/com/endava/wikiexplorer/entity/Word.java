@@ -7,12 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="word")
-public class Word {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+public class Word extends AbstractEntity{
     @Column
     private String value;
 
@@ -22,14 +17,6 @@ public class Word {
 
     public Word(String value) {
         this.value = value;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getValue() {
