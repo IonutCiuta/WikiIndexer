@@ -1,6 +1,7 @@
 package com.endava.wikiexplorer.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -9,15 +10,18 @@ import java.util.Collection;
 @Entity
 @Table(name="query")
 public class Query extends AbstractEntity{
-    @Column
+    @Column(name = "query_titles")
     private String titles;
 
-    @Column(name="time")
-    private Long timeMilis;
+    @Column(name = "query_length")
+    private Long length;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "query_id")
     private Collection<Occurrence> occurrences;
+
+    public Query() {
+    }
 
     public String getTitles() {
         return titles;
@@ -27,12 +31,12 @@ public class Query extends AbstractEntity{
         this.titles = titles;
     }
 
-    public Long getTimeMilis() {
-        return timeMilis;
+    public Long getLength() {
+        return length;
     }
 
-    public void setTimeMilis(Long timeMilis) {
-        this.timeMilis = timeMilis;
+    public void setLength(Long length) {
+        this.length = length;
     }
 
     public Collection<Occurrence> getOccurrences() {
@@ -41,6 +45,13 @@ public class Query extends AbstractEntity{
 
     public void setOccurrences(Collection<Occurrence> occurrences) {
         this.occurrences = occurrences;
+    }
+
+    public void addOccurence(Occurrence occurrence) {
+        if(this.occurrences == null) {
+            this.occurrences = new ArrayList<>();
+        }
+        occurrences.add(occurrence);
     }
 
     @Override

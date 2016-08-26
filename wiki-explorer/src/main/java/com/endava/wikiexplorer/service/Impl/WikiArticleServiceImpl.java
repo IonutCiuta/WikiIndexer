@@ -70,7 +70,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         titles = titleDbFormat(titles);
         Query query = queryRepository.findByTitlesIgnoreCase(titles);
         WikiContentAnalysis wikiContentAnalysis = new WikiContentAnalysis();
-        wikiContentAnalysis.setAnalysisTime(query.getTimeMilis());
+        wikiContentAnalysis.setAnalysisTime(query.getLength());
         wikiContentAnalysis.setArticleTitle(titles);
         List<Occurrence> occurrences = (List) query.getOccurrences();
         wikiContentAnalysis.setTopOccurrences(DTOService.toDto(occurrences));
@@ -82,7 +82,7 @@ public class WikiArticleServiceImpl implements WikiArticleService {
         Query query = new Query();
         query.setTitles(titleDbFormat(wikiContentAnalysis.getArticleTitle()));
         System.out.println(wikiContentAnalysis.getArticleTitle());
-        query.setTimeMilis(wikiContentAnalysis.getAnalysisTime());
+        query.setLength(wikiContentAnalysis.getAnalysisTime());
         queryRepository.save(query);
 
         List<OccurrenceDTO> occurrenceDTOs = wikiContentAnalysis.getTopOccurrences();

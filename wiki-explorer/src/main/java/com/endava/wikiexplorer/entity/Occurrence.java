@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "occurences")
+@Table(name = "occurrence")
 public class Occurrence extends AbstractEntity{
     @Column
     Integer frequency;
@@ -18,7 +18,7 @@ public class Occurrence extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name="word_id")
-    Word word;
+    private Word word;
 
     public Occurrence(){
 
