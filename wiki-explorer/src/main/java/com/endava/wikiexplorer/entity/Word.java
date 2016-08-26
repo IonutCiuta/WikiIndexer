@@ -6,9 +6,9 @@ import javax.persistence.*;
  * Created by aciurea on 8/17/2016.
  */
 @Entity
-@Table(name="word")
+@Table(name = "word")
 public class Word extends AbstractEntity{
-    @Column
+    @Column(nullable = false)
     private String value;
 
     public Word(){

@@ -9,15 +9,15 @@ import javax.persistence.*;
 @Entity
 @Table(name = "occurrence")
 public class Occurrence extends AbstractEntity{
-    @Column
+    @Column(nullable = false)
     Integer frequency;
 
     @ManyToOne
-    @JoinColumn(name="query_id")
+    @JoinColumn(name = "query_id", nullable = false)
     private Analysis analysis;
 
-    @ManyToOne
-    @JoinColumn(name="word_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "word_id", nullable = false)
     private Word word;
 
     public Occurrence(){

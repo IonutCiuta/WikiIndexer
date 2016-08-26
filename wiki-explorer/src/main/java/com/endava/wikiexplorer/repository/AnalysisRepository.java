@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by aciurea on 8/17/2016.
  */
 @Repository
-public interface AnalysisRepository extends CrudRepository<Analysis, Integer> {
-
+public interface AnalysisRepository extends CrudRepository<Analysis, Long> {
     Analysis findByTitlesIgnoreCase(String titles);
 }

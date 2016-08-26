@@ -2,7 +2,7 @@ package com.endava.wikiexplorer.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by aciurea on 8/17/2016.
@@ -10,15 +10,15 @@ import java.util.Collection;
 @Entity
 @Table(name="analysis")
 public class Analysis extends AbstractEntity{
-    @Column(name = "query_titles")
+    @Column(name = "query_titles", nullable = false)
     private String titles;
 
-    @Column(name = "query_length")
+    @Column(name = "query_length", nullable = false)
     private Long length;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "query_id")
-    private Collection<Occurrence> occurrences;
+    private List<Occurrence> occurrences;
 
     public Analysis() {
         this.occurrences = new ArrayList<>();
@@ -40,15 +40,15 @@ public class Analysis extends AbstractEntity{
         this.length = length;
     }
 
-    public Collection<Occurrence> getOccurrences() {
+    public List<Occurrence> getOccurrences() {
         return occurrences;
     }
 
-    public void setOccurrences(Collection<Occurrence> occurrences) {
+    public void setOccurrences(List<Occurrence> occurrences) {
         this.occurrences = occurrences;
     }
 
-    public void addOccurence(Occurrence occurrence) {
+    public void addOccurrence(Occurrence occurrence) {
         occurrences.add(occurrence);
     }
 
