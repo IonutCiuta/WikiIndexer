@@ -21,6 +21,7 @@ public class Query extends AbstractEntity{
     private Collection<Occurrence> occurrences;
 
     public Query() {
+        this.occurrences = new ArrayList<>();
     }
 
     public String getTitles() {
@@ -48,9 +49,6 @@ public class Query extends AbstractEntity{
     }
 
     public void addOccurence(Occurrence occurrence) {
-        if(this.occurrences == null) {
-            this.occurrences = new ArrayList<>();
-        }
         occurrences.add(occurrence);
     }
 

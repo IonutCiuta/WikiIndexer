@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Created by aciurea on 8/17/2016.
  */
 @Repository
-public interface OccurenceRepository extends CrudRepository<Occurrence,Integer> {
+public interface OccurrenceRepository extends CrudRepository<Occurrence,Integer> {
 }

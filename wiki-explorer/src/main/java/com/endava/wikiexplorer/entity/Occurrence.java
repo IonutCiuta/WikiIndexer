@@ -24,10 +24,10 @@ public class Occurrence extends AbstractEntity{
 
     }
 
-    public Occurrence(Query query, Word word, int frequency){
-        this.frequency=frequency;
-        this.word=word;
-        this.query=query;
+    public Occurrence(Query query, Word word, Integer frequency) {
+        this.frequency = frequency;
+        this.query = query;
+        this.word = word;
     }
 
     public Query getQuery() {
