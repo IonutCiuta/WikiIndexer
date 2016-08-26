@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.repository;
 
-import com.endava.wikiexplorer.model.Occurrence;
+import com.endava.wikiexplorer.entity.Occurrence;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

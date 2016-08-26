@@ -1,7 +1,7 @@
 package com.endava.wikiexplorer.util;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
-import com.endava.wikiexplorer.model.Occurrence;
+import com.endava.wikiexplorer.entity.Occurrence;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.repository;
 
-import com.endava.wikiexplorer.model.Query;
+import com.endava.wikiexplorer.entity.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

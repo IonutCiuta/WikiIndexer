@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.repository;
 
-import com.endava.wikiexplorer.model.Word;
+import com.endava.wikiexplorer.entity.Word;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

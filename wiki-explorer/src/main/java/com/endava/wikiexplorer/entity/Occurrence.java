@@ -1,4 +1,4 @@
-package com.endava.wikiexplorer.model;
+package com.endava.wikiexplorer.entity;
 
 import javax.persistence.*;
 

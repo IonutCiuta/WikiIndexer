@@ -2,9 +2,9 @@ package com.endava.wikiexplorer.service.Impl;
 
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
-import com.endava.wikiexplorer.model.Occurrence;
-import com.endava.wikiexplorer.model.Query;
-import com.endava.wikiexplorer.model.Word;
+import com.endava.wikiexplorer.entity.Occurrence;
+import com.endava.wikiexplorer.entity.Query;
+import com.endava.wikiexplorer.entity.Word;
 import com.endava.wikiexplorer.repository.OccurenceRepository;
 import com.endava.wikiexplorer.repository.QueryRepository;
 import com.endava.wikiexplorer.repository.WordRepository;
