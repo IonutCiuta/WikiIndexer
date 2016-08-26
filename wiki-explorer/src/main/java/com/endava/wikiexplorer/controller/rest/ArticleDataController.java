@@ -4,7 +4,7 @@ import com.endava.wikiexplorer.dto.AnalysisDTO;
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
 import com.endava.wikiexplorer.entity.Occurrence;
-import com.endava.wikiexplorer.entity.Query;
+import com.endava.wikiexplorer.entity.Analysis;
 import com.endava.wikiexplorer.service.WikiService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,24 +34,24 @@ public class ArticleDataController {
     public AnalysisDTO getStatistics(@RequestParam(value = "titles") String titles, @RequestParam(value = "ignoreCommon") Boolean ignoreCommon) {
         log.info("GET /article/" + titles);
         WikiDTO wikiDTO = wikiService.requestWikiContent(titles);
-        Query query = wikiService.analyzeWikiContent(wikiDTO);
-        return convert(query);
+        Analysis analysis = wikiService.analyzeWikiContent(wikiDTO);
+        return convert(analysis);
     }
 
     @RequestMapping(value = "/article/random", method = RequestMethod.GET)
     public AnalysisDTO getRandomStatistics() {
         log.info("GET /article/random");
         WikiDTO wikiDTO = wikiService.requestRandomWikiContent();
-        Query query = wikiService.analyzeWikiContent(wikiDTO);
-        return convert(query);
+        Analysis analysis = wikiService.analyzeWikiContent(wikiDTO);
+        return convert(analysis);
     }
 
-    private AnalysisDTO convert(Query query) {
+    private AnalysisDTO convert(Analysis analysis) {
         AnalysisDTO result = new AnalysisDTO();
-        result.setTitles(query.getTitles());
-        result.setLength(query.getLength());
+        result.setTitles(analysis.getTitles());
+        result.setLength(analysis.getLength());
 
-        for(Occurrence occurrence : query.getOccurrences()) {
+        for(Occurrence occurrence : analysis.getOccurrences()) {
             result.addOccurrence(new OccurrenceDTO(occurrence.getWord().getValue(), occurrence.getFrequency()));
         }
 

@@ -3,8 +3,8 @@ package com.endava.wikiexplorer.util;
 import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
 import com.endava.wikiexplorer.dto.wiki.WikiArticle;
+import com.endava.wikiexplorer.entity.Analysis;
 import com.endava.wikiexplorer.entity.Occurrence;
-import com.endava.wikiexplorer.entity.Query;
 import com.endava.wikiexplorer.entity.Word;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,9 +52,9 @@ public class WikiContentAnalyzer {
      * @param content
      * @return
      */
-    public Query analyzeContent(WikiDTO content) {
+    public Analysis analyzeContent(WikiDTO content) {
         long start, end;
-        Query query = new Query();
+        Analysis analysis = new Analysis();
         ConcurrentHashMap<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesParallel(content.getArticles());
         ConcurrentHashMap<String, Integer> wordCountMap = new ConcurrentHashMap<>();
 
@@ -70,14 +70,14 @@ public class WikiContentAnalyzer {
 
         }
 
-        List<Occurrence> topOccurrences = getTopOccurringWords(query, wordCountMap);
+        List<Occurrence> topOccurrences = getTopOccurringWords(analysis, wordCountMap);
         end = System.currentTimeMillis();
 
-        query.setTitles(content.getQueryTitles());
-        query.setLength(end - start);
-        query.setOccurrences(topOccurrences);
+        analysis.setTitles(content.getQueryTitles());
+        analysis.setLength(end - start);
+        analysis.setOccurrences(topOccurrences);
 
-        return query;
+        return analysis;
     }
 
     /**
@@ -103,7 +103,7 @@ public class WikiContentAnalyzer {
      * @param unsortedWordCountMap
      * @return
      */
-    private List<Occurrence> getTopOccurringWords(Query query, Map<String, Integer> unsortedWordCountMap) {
+    private List<Occurrence> getTopOccurringWords(Analysis analysis, Map<String, Integer> unsortedWordCountMap) {
         List<Occurrence> topOccurrences = new ArrayList<>();
         Set<String> commonWordsSet = new HashSet<>(commonWordsList);
         List<Map.Entry<String, Integer>> sortedOccurrences = new LinkedList<>(unsortedWordCountMap.entrySet());
@@ -119,7 +119,7 @@ public class WikiContentAnalyzer {
             Integer currentFrequency = currentOccurence.getValue();
 
             if(!commonWordsSet.contains(currentWord)) {
-                topOccurrences.add(new Occurrence(query, new Word(currentWord), currentFrequency));
+                topOccurrences.add(new Occurrence(analysis, new Word(currentWord), currentFrequency));
                 selectedWords++;
             }
 

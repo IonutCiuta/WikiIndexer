@@ -1,7 +1,7 @@
 package com.endava.wikiexplorer.service.impl;
 
 import com.endava.wikiexplorer.dto.WikiDTO;
-import com.endava.wikiexplorer.entity.Query;
+import com.endava.wikiexplorer.entity.Analysis;
 import com.endava.wikiexplorer.service.WikiService;
 import com.endava.wikiexplorer.util.WikiContentAnalyzer;
 import org.apache.log4j.Logger;
@@ -43,7 +43,7 @@ public class WikiServiceImpl implements WikiService {
     }
 
     @Override
-    public Query analyzeWikiContent(WikiDTO wikiDTO) {
+    public Analysis analyzeWikiContent(WikiDTO wikiDTO) {
         log.info("analyzeWikiContent");
         return wikiContentAnalyzer.analyzeContent(wikiDTO);
     }

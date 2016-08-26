@@ -8,8 +8,8 @@ import java.util.Collection;
  * Created by aciurea on 8/17/2016.
  */
 @Entity
-@Table(name="query")
-public class Query extends AbstractEntity{
+@Table(name="analysis")
+public class Analysis extends AbstractEntity{
     @Column(name = "query_titles")
     private String titles;
 
@@ -20,7 +20,7 @@ public class Query extends AbstractEntity{
     @JoinColumn(name = "query_id")
     private Collection<Occurrence> occurrences;
 
-    public Query() {
+    public Analysis() {
         this.occurrences = new ArrayList<>();
     }
 
@@ -54,7 +54,7 @@ public class Query extends AbstractEntity{
 
     @Override
     public String toString() {
-        return "Query{" +
+        return "Analysis{" +
                 "id=" + id +
                 ", titles=" + titles +
                 '}';

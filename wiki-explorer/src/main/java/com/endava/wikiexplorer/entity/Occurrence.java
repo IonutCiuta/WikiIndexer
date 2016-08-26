@@ -14,7 +14,7 @@ public class Occurrence extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name="query_id")
-    private Query query;
+    private Analysis analysis;
 
     @ManyToOne
     @JoinColumn(name="word_id")
@@ -24,18 +24,18 @@ public class Occurrence extends AbstractEntity{
 
     }
 
-    public Occurrence(Query query, Word word, Integer frequency) {
+    public Occurrence(Analysis analysis, Word word, Integer frequency) {
         this.frequency = frequency;
-        this.query = query;
+        this.analysis = analysis;
         this.word = word;
     }
 
-    public Query getQuery() {
-        return query;
+    public Analysis getAnalysis() {
+        return analysis;
     }
 
-    public void setQuery(Query query) {
-        this.query = query;
+    public void setAnalysis(Analysis analysis) {
+        this.analysis = analysis;
     }
 
     public Word getWord() {
@@ -57,7 +57,7 @@ public class Occurrence extends AbstractEntity{
     @Override
     public String toString() {
         return "Occurrence{" +
-                "query=" + query +
+                "analysis=" + analysis +
                 ", word=" + word +
                 ", frequency=" + frequency +
                 '}';
