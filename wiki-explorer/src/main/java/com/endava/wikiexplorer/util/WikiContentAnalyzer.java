@@ -1,8 +1,6 @@
 package com.endava.wikiexplorer.util;
 
-import com.endava.wikiexplorer.dto.OccurrenceDTO;
 import com.endava.wikiexplorer.dto.WikiDTO;
-import com.endava.wikiexplorer.dto.wiki.WikiArticle;
 import com.endava.wikiexplorer.entity.Analysis;
 import com.endava.wikiexplorer.entity.Occurrence;
 import com.endava.wikiexplorer.entity.Word;
@@ -29,24 +27,6 @@ public class WikiContentAnalyzer {
 
     @Autowired
     private WikiContentParser wikiContentParser;
-
-    /**
-     * Analyzes a list of articles in a serial manner; intermediary results are stored in a hash map
-     * @param articles list of articles
-     * @return list of top occuring words
-     */
-    @Deprecated
-    public List<OccurrenceDTO> analyzeArticlesSerial(List<WikiArticle> articles) {
-        Map<Integer, String[]> articleWordsMap = wikiContentParser.parseArticlesSerial(articles);
-        Map<String, Integer> wordCountMap = new HashMap<>();
-
-        for(int key : articleWordsMap.keySet()) {
-            countArticleWords(articleWordsMap.get(key), wordCountMap);
-        }
-
-        /*return getTopOccurringWords(wordCountMap);*/
-        return null;
-    }
 
     /**
      * @param content

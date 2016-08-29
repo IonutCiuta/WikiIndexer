@@ -35,7 +35,7 @@ public class ArticleDataController {
     private PersistenceService persistenceService;
 
     @RequestMapping(value = "/article", method = RequestMethod.GET)
-    public AnalysisDTO getStatistics(@RequestParam(value = "titles") String titles, @RequestParam(value = "ignoreCommon") Boolean ignoreCommon) {
+    public AnalysisDTO getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
         Analysis analysis = persistenceService.findAnalysis(titles);
 
