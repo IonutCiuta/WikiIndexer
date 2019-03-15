@@ -1,7 +1,12 @@
 package com.endava.wikiexplorer.controller.rest;
 
-import com.endava.wikiexplorer.service.WikiArticleService;
-import com.endava.wikiexplorer.util.WikiContentAnalysis;
+import com.endava.wikiexplorer.dto.AnalysisDTO;
+import com.endava.wikiexplorer.dto.OccurrenceDTO;
+import com.endava.wikiexplorer.dto.WikiDTO;
+import com.endava.wikiexplorer.entity.Analysis;
+import com.endava.wikiexplorer.entity.Occurrence;
+import com.endava.wikiexplorer.service.PersistenceService;
+import com.endava.wikiexplorer.service.WikiService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,22 +29,48 @@ public class ArticleDataController {
     private String randomURL;
 
     @Autowired
-    private WikiArticleService wikiArticleService;
+    private WikiService wikiService;
 
-    /**
-     *
-     * @param titles should be Title1|Title2|Title3
-     * @return
-     */
+    @Autowired
+    private PersistenceService persistenceService;
+
     @RequestMapping(value = "/article", method = RequestMethod.GET)
-    public WikiContentAnalysis getStatistics(@RequestParam(value = "titles") String titles, @RequestParam(value = "ignoreCommon") Boolean ignoreCommon) {
+    public AnalysisDTO getStatistics(@RequestParam(value = "titles") String titles) {
         log.info("GET /article/" + titles);
-        return wikiArticleService.manageRequest(wikiURL+titles);
+        Analysis analysis = persistenceService.findAnalysis(titles);
+
+        if(analysis == null) {
+            log.info("getStatistics: " + titles + " not cached");
+            WikiDTO wikiDTO = wikiService.requestWikiContent(titles);
+            analysis = wikiService.analyzeWikiContent(wikiDTO);
+            persistenceService.saveAnalysis(analysis);
+        }
+
+        return convert(analysis);
     }
 
     @RequestMapping(value = "/article/random", method = RequestMethod.GET)
-    public WikiContentAnalysis getRandomStatistics() {
+    public AnalysisDTO getRandomStatistics() {
         log.info("GET /article/random");
-        return wikiArticleService.manageRequest(randomURL);
+        WikiDTO wikiDTO = wikiService.requestRandomWikiContent();
+        Analysis analysis = wikiService.analyzeWikiContent(wikiDTO);
+
+        if(persistenceService.findAnalysis(analysis.getTitles()) == null) {
+            persistenceService.saveAnalysis(analysis);
+        }
+
+        return convert(analysis);
+    }
+
+    private AnalysisDTO convert(Analysis analysis) {
+        AnalysisDTO result = new AnalysisDTO();
+        result.setTitles(analysis.getTitles());
+        result.setLength(analysis.getLength());
+
+        for(Occurrence occurrence : analysis.getOccurrences()) {
+            result.addOccurrence(new OccurrenceDTO(occurrence.getWord().getValue(), occurrence.getFrequency()));
+        }
+
+        return result;
     }
 }

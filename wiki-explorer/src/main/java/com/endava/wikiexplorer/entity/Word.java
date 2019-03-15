@@ -1,4 +1,4 @@
-package com.endava.wikiexplorer.model;
+package com.endava.wikiexplorer.entity;
 
 import javax.persistence.*;
 
@@ -6,14 +6,9 @@ import javax.persistence.*;
  * Created by aciurea on 8/17/2016.
  */
 @Entity
-@Table(name="word")
-public class Word {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @Column
+@Table(name = "word")
+public class Word extends AbstractEntity{
+    @Column(nullable = false)
     private String value;
 
     public Word(){
@@ -22,14 +17,6 @@ public class Word {
 
     public Word(String value) {
         this.value = value;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getValue() {

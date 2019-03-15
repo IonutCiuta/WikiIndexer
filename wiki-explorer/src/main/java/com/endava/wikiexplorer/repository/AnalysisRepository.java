@@ -1,6 +1,6 @@
 package com.endava.wikiexplorer.repository;
 
-import com.endava.wikiexplorer.model.Occurence;
+import com.endava.wikiexplorer.entity.Analysis;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by aciurea on 8/17/2016.
  */
 @Repository
-public interface OccurenceRepository extends CrudRepository<Occurence,Integer> {
+public interface AnalysisRepository extends CrudRepository<Analysis, Long> {
+    Analysis findByTitlesIgnoreCase(String titles);
 }
